@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pallavolo Amatoriale</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f5;color:#1a1a1a}
+.app{max-width:720px;margin:0 auto;padding:1rem}
+h1{font-size:22px;font-weight:600;margin-bottom:2px}
+.subtitle{font-size:14px;color:#666;margin-bottom:8px}
+.gym-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#185FA5;text-decoration:none;margin-bottom:1.25rem;padding:6px 12px;border:1px solid #B5D4F4;border-radius:8px;background:#E6F1FB}
+.tabs{display:flex;gap:4px;margin-bottom:1.5rem;border-bottom:1px solid #ddd}
+.tab{padding:8px 16px;font-size:14px;border:none;background:none;cursor:pointer;color:#666;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab.active{color:#1a1a1a;font-weight:600;border-bottom-color:#1a1a1a}
+.section{display:none}.section.active{display:block}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:1rem 1.25rem;margin-bottom:12px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+input,select{flex:1;min-width:120px;font-size:14px;padding:8px 10px;border:1px solid #ccc;border-radius:8px;background:#fff;color:#1a1a1a}
+button{padding:8px 16px;font-size:14px;border:1px solid #ccc;border-radius:8px;background:#fff;color:#1a1a1a;cursor:pointer;white-space:nowrap}
+button:hover{background:#f0f0f0}
+button.primary{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+button.primary:hover{opacity:.85}
+button.danger{color:#A32D2D;border-color:#A32D2D;background:none}
+button.danger:hover{background:#fff5f5}
+.player-list{display:flex;flex-direction:column;gap:8px}
+.player-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#fff;border:1px solid #e0e0e0;border-radius:8px}
+.player-name{flex:1;font-size:14px;font-weight:500}
+.player-gender{font-size:12px;padding:2px 8px;border-radius:8px}
+.gender-f{background:#FBEAF0;color:#72243E}
+.gender-m{background:#E6F1FB;color:#0C447C}
+.stars{display:flex;gap:2px;cursor:pointer}
+.star{font-size:18px;color:#ddd;user-select:none}
+.star.on{color:#BA7517}
+.team-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:1rem}
+@media(max-width:500px){.team-grid{grid-template-columns:1fr}}
+.team-card{background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:1rem 1.25rem}
+.team-title{font-size:14px;font-weight:600;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.team-player{font-size:13px;padding:6px 0;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center}
+.team-player:last-child{border-bottom:none}
+.empty{text-align:center;padding:2rem;color:#888;font-size:14px}
+.schedule-item{display:flex;align-items:center;gap:12px;padding:10px 14px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;margin-bottom:8px}
+.day-badge{font-size:12px;font-weight:600;padding:3px 10px;border-radius:8px;background:#E6F1FB;color:#0C447C;white-space:nowrap}
+.sched-time{font-size:14px;font-weight:600;min-width:50px}
+.sched-note{font-size:13px;color:#666;flex:1}
+.stat-row{display:flex;gap:12px;margin-bottom:1rem}
+.stat{flex:1;background:#f5f5f5;border-radius:8px;padding:.75rem 1rem;text-align:center}
+.stat-num{font-size:24px;font-weight:600}
+.stat-label{font-size:13px;color:#666}
+.alert{padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:12px;background:#FFF8E1;color:#795500;border:1px solid #FFE082}
+.syncing{font-size:12px;color:#888;text-align:right;margin-bottom:8px}
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>🏐 Pallavolo Amatoriale</h1>
+  <p class="subtitle">Gestione giocatori, allenamenti e squadre</p>
+  <a class="gym-link" href="https://maps.app.goo.gl/5UsuibHvX69ceocNA" target="_blank">
+    📍 Palestra — apri in Maps
+  </a>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('players')">Giocatori</button>
+    <button class="tab" onclick="showTab('schedule')">Allenamenti</button>
+    <button class="tab" onclick="showTab('teams')">Squadre</button>
+  </div>
+
+  <div id="players" class="section active">
+    <div class="card">
+      <div class="row">
+        <input id="pname" type="text" placeholder="Nome giocatore" onkeydown="if(event.key==='Enter')addPlayer()"/>
+        <select id="pgender">
+          <option value="M">Maschio</option>
+          <option value="F">Femmina</option>
+        </select>
+        <button class="primary" onclick="addPlayer()">Aggiungi</button>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="stat-num" id="tot-count">0</div><div class="stat-label">totali</div></div>
+      <div class="stat"><div class="stat-num" id="m-count" style="color:#185FA5">0</div><div class="stat-label">maschi</div></div>
+      <div class="stat"><div class="stat-num" id="f-count" style="color:#993556">0</div><div class="stat-label">femmine</div></div>
+    </div>
+    <div class="syncing" id="sync-status">Connessione in corso...</div>
+    <div class="player-list" id="player-list"></div>
+  </div>
+
+  <div id="schedule" class="section">
+    <div class="card">
+      <div class="row">
+        <select id="sday">
+          <option>Lunedì</option><option>Martedì</option><option>Mercoledì</option>
+          <option>Giovedì</option><option>Venerdì</option><option>Sabato</option><option>Domenica</option>
+        </select>
+        <input id="stime" type="time" value="20:00" style="min-width:90px;flex:0"/>
+        <input id="snote" type="text" placeholder="Note (palestra, campo...)" onkeydown="if(event.key==='Enter')addSlot()"/>
+        <button class="primary" onclick="addSlot()">Aggiungi</button>
+      </div>
+    </div>
+    <div id="schedule-list"></div>
+  </div>
+
+  <div id="teams" class="section">
+    <div class="card">
+      <div class="row">
+        <div style="flex:1;font-size:14px;color:#666">Le femmine vengono distribuite equamente. I voti bilanciano il livello.</div>
+        <select id="numteams">
+          <option value="2">2 squadre</option>
+          <option value="3">3 squadre</option>
+          <option value="4">4 squadre</option>
+        </select>
+        <button class="primary" onclick="generateTeams()">Genera squadre</button>
+      </div>
+    </div>
+    <div id="teams-output"></div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, remove, onValue, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCeLMSNaWLiIsNkoTKuOS-u_kZJN0pgKjA",
+  authDomain: "pallavolo-8b6b1.firebaseapp.com",
+  databaseURL: "https://pallavolo-8b6b1-default-rtdb.firebaseio.com",
+  projectId: "pallavolo-8b6b1",
+  storageBucket: "pallavolo-8b6b1.firebasestorage.app",
+  messagingSenderId: "74477657469",
+  appId: "1:74477657469:web:a4ee8c6915109efbd54014"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+let players = {};
+let schedule = {};
+
+// Listen to players
+onValue(ref(db, 'players'), (snapshot) => {
+  players = snapshot.val() || {};
+  document.getElementById('sync-status').textContent = '✓ Sincronizzato';
+  renderPlayers();
+});
+
+// Listen to schedule
+onValue(ref(db, 'schedule'), (snapshot) => {
+  schedule = snapshot.val() || {};
+  renderSchedule();
+});
+
+window.showTab = function(t) {
+  document.querySelectorAll('.tab').forEach((b,i)=>{b.classList.toggle('active',['players','schedule','teams'][i]===t)});
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(t).classList.add('active');
+}
+
+window.addPlayer = function() {
+  const n = document.getElementById('pname').value.trim();
+  if(!n) return;
+  const newRef = push(ref(db, 'players'));
+  set(newRef, {name: n, gender: document.getElementById('pgender').value, rating: 3});
+  document.getElementById('pname').value = '';
+}
+
+window.setRating = function(id, r) {
+  set(ref(db, 'players/' + id + '/rating'), r);
+}
+
+window.removePlayer = function(id) {
+  remove(ref(db, 'players/' + id));
+}
+
+window.addSlot = function() {
+  const newRef = push(ref(db, 'schedule'));
+  set(newRef, {
+    day: document.getElementById('sday').value,
+    time: document.getElementById('stime').value,
+    note: document.getElementById('snote').value.trim()
+  });
+  document.getElementById('snote').value = '';
+}
+
+window.removeSlot = function(id) {
+  remove(ref(db, 'schedule/' + id));
+}
+
+function renderPlayers() {
+  const list = Object.entries(players);
+  document.getElementById('tot-count').textContent = list.length;
+  document.getElementById('m-count').textContent = list.filter(([,p])=>p.gender==='M').length;
+  document.getElementById('f-count').textContent = list.filter(([,p])=>p.gender==='F').length;
+  const el = document.getElementById('player-list');
+  if(!list.length){el.innerHTML='<div class="empty">Nessun giocatore. Aggiungine uno sopra.</div>';return;}
+  el.innerHTML = list.map(([id,p])=>`
+    <div class="player-item">
+      <span class="player-name">${p.name}</span>
+      <span class="player-gender ${p.gender==='F'?'gender-f':'gender-m'}">${p.gender}</span>
+      <div class="stars">${[1,2,3,4,5].map(i=>`<span class="star${(p.rating||3)>=i?' on':''}" onclick="setRating('${id}',${i})">★</span>`).join('')}</div>
+      <button class="danger" onclick="removePlayer('${id}')" style="padding:4px 10px;font-size:12px">rimuovi</button>
+    </div>
+  `).join('');
+}
+
+function renderSchedule() {
+  const el = document.getElementById('schedule-list');
+  const days = ['Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato','Domenica'];
+  const list = Object.entries(schedule).sort((a,b)=>days.indexOf(a[1].day)-days.indexOf(b[1].day)||a[1].time.localeCompare(b[1].time));
+  if(!list.length){el.innerHTML='<div class="empty">Nessun allenamento pianificato.</div>';return;}
+  el.innerHTML = list.map(([id,s])=>`
+    <div class="schedule-item">
+      <span class="day-badge">${s.day}</span>
+      <span class="sched-time">${s.time}</span>
+      <span class="sched-note">${s.note||''}</span>
+      <button class="danger" onclick="removeSlot('${id}')" style="padding:4px 10px;font-size:12px">rimuovi</button>
+    </div>
+  `).join('');
+}
+
+window.generateTeams = function() {
+  const n = parseInt(document.getElementById('numteams').value);
+  const list = Object.values(players);
+  if(list.length < n){document.getElementById('teams-output').innerHTML='<div class="alert">Non ci sono abbastanza giocatori per '+n+' squadre.</div>';return;}
+  const females = list.filter(p=>p.gender==='F').sort(()=>Math.random()-.5);
+  const males = list.filter(p=>p.gender==='M').sort(()=>Math.random()-.5);
+  const teams = Array.from({length:n},(_,i)=>({name:'Squadra '+(i+1),players:[],totalRating:0}));
+  [...females].sort((a,b)=>b.rating-a.rating).forEach((p,i)=>{const t=teams[i%n];t.players.push(p);t.totalRating+=(p.rating||3);});
+  [...males].sort((a,b)=>b.rating-a.rating).forEach(p=>{const t=teams.reduce((m,c)=>c.totalRating<m.totalRating?c:m);t.players.push(p);t.totalRating+=(p.rating||3);});
+  document.getElementById('teams-output').innerHTML=`
+    <div style="margin-bottom:8px;font-size:13px;color:#888">Rigenera per un sorteggio diverso.</div>
+    <div class="team-grid">${teams.map(t=>`
+      <div class="team-card">
+        <div class="team-title"><span>${t.name}</span><span style="font-size:12px;color:#888">media ${(t.totalRating/Math.max(t.players.length,1)).toFixed(1)} ★</span></div>
+        ${t.players.map(p=>`<div class="team-player"><span>${p.name} <span class="player-gender ${p.gender==='F'?'gender-f':'gender-m'}" style="font-size:10px;padding:1px 5px">${p.gender}</span></span><span style="color:#BA7517;font-size:12px">${'★'.repeat(p.rating||3)}</span></div>`).join('')}
+      </div>`).join('')}
+    </div>
+    <button onclick="generateTeams()" style="margin-top:12px">Rigenera</button>`;
+}
+</script>
+</body>
+</html>
