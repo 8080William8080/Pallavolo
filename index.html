@@ -5,51 +5,120 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pallavolo Amatoriale</title>
 <style>
+:root {
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #666;
+  --color-text-info: #1a5fa8;
+  --color-background-primary: #fff;
+  --color-background-secondary: #f5f5f5;
+  --color-background-info: #eaf2ff;
+  --color-background-warning: #fff8e1;
+  --color-text-warning: #7a5c00;
+  --color-border-secondary: #ddd;
+  --color-border-tertiary: #e8e8e8;
+  --color-border-info: #b0d0f5;
+  --color-border-warning: #f0d060;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f5;color:#1a1a1a}
+body{font-family:var(--font-sans);background:#f9f9f9}
 .app{max-width:720px;margin:0 auto;padding:1rem}
-h1{font-size:22px;font-weight:600;margin-bottom:2px}
-.subtitle{font-size:14px;color:#666;margin-bottom:8px}
-.gym-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#185FA5;text-decoration:none;margin-bottom:1.25rem;padding:6px 12px;border:1px solid #B5D4F4;border-radius:8px;background:#E6F1FB}
-.tabs{display:flex;gap:4px;margin-bottom:1.5rem;border-bottom:1px solid #ddd}
-.tab{padding:8px 16px;font-size:14px;border:none;background:none;cursor:pointer;color:#666;border-bottom:2px solid transparent;margin-bottom:-1px}
-.tab.active{color:#1a1a1a;font-weight:600;border-bottom-color:#1a1a1a}
+h1{font-size:22px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.subtitle{font-size:14px;color:var(--color-text-secondary);margin-bottom:4px}
+.gym-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--color-text-info);text-decoration:none;margin-bottom:1.25rem;padding:6px 12px;border:0.5px solid var(--color-border-info);border-radius:var(--border-radius-md);background:var(--color-background-info)}
+.gym-link:hover{opacity:.8}
+.tabs{display:flex;gap:4px;margin-bottom:1.5rem;border-bottom:0.5px solid var(--color-border-tertiary);padding-bottom:0;overflow-x:auto}
+.tab{padding:8px 14px;font-size:13px;border:none;background:none;cursor:pointer;color:var(--color-text-secondary);border-bottom:2px solid transparent;margin-bottom:-0.5px;transition:all .15s;white-space:nowrap}
+.tab.active{color:var(--color-text-primary);font-weight:500;border-bottom-color:var(--color-text-primary)}
 .section{display:none}.section.active{display:block}
-.card{background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:1rem 1.25rem;margin-bottom:12px}
-.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-input,select{flex:1;min-width:120px;font-size:14px;padding:8px 10px;border:1px solid #ccc;border-radius:8px;background:#fff;color:#1a1a1a}
-button{padding:8px 16px;font-size:14px;border:1px solid #ccc;border-radius:8px;background:#fff;color:#1a1a1a;cursor:pointer;white-space:nowrap}
-button:hover{background:#f0f0f0}
-button.primary{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:12px}
+.row{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+input,select,textarea{flex:1;min-width:120px;font-size:14px;padding:8px 10px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary);font-family:var(--font-sans)}
+textarea{resize:vertical;min-height:60px}
+button{padding:8px 16px;font-size:14px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:none;color:var(--color-text-primary);cursor:pointer;white-space:nowrap;font-family:var(--font-sans)}
+button:hover{background:var(--color-background-secondary)}
+button.primary{background:var(--color-text-primary);color:var(--color-background-primary);border-color:var(--color-text-primary)}
 button.primary:hover{opacity:.85}
-button.danger{color:#A32D2D;border-color:#A32D2D;background:none}
-button.danger:hover{background:#fff5f5}
+button.danger{color:#A32D2D;border-color:#A32D2D}
 .player-list{display:flex;flex-direction:column;gap:8px}
-.player-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#fff;border:1px solid #e0e0e0;border-radius:8px}
-.player-name{flex:1;font-size:14px;font-weight:500}
-.player-gender{font-size:12px;padding:2px 8px;border-radius:8px}
+.player-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md)}
+.player-name{flex:1;font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.player-gender{font-size:12px;padding:2px 8px;border-radius:var(--border-radius-md)}
 .gender-f{background:#FBEAF0;color:#72243E}
 .gender-m{background:#E6F1FB;color:#0C447C}
 .stars{display:flex;gap:2px;cursor:pointer}
-.star{font-size:18px;color:#ddd;user-select:none}
+.star{font-size:16px;color:var(--color-border-secondary);transition:.1s;user-select:none}
 .star.on{color:#BA7517}
 .team-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:1rem}
-@media(max-width:500px){.team-grid{grid-template-columns:1fr}}
-.team-card{background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:1rem 1.25rem}
-.team-title{font-size:14px;font-weight:600;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
-.team-player{font-size:13px;padding:6px 0;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center}
+.team-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem}
+.team-title{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.team-player{font-size:13px;padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;justify-content:space-between;align-items:center;color:var(--color-text-primary)}
 .team-player:last-child{border-bottom:none}
-.empty{text-align:center;padding:2rem;color:#888;font-size:14px}
-.schedule-item{display:flex;align-items:center;gap:12px;padding:10px 14px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;margin-bottom:8px}
-.day-badge{font-size:12px;font-weight:600;padding:3px 10px;border-radius:8px;background:#E6F1FB;color:#0C447C;white-space:nowrap}
-.sched-time{font-size:14px;font-weight:600;min-width:50px}
-.sched-note{font-size:13px;color:#666;flex:1}
+.score-badge{font-size:11px;color:var(--color-text-secondary)}
+.empty{text-align:center;padding:2rem;color:var(--color-text-secondary);font-size:14px}
+.schedule-item{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);margin-bottom:8px}
+.day-badge{font-size:12px;font-weight:500;padding:3px 10px;border-radius:var(--border-radius-md);background:var(--color-background-info);color:var(--color-text-info);white-space:nowrap}
+.sched-time{font-size:14px;font-weight:500;color:var(--color-text-primary);min-width:50px}
+.sched-note{font-size:13px;color:var(--color-text-secondary);flex:1}
+.alert{padding:10px 14px;border-radius:var(--border-radius-md);font-size:13px;margin-bottom:12px;background:var(--color-background-warning);color:var(--color-text-warning);border:0.5px solid var(--color-border-warning)}
 .stat-row{display:flex;gap:12px;margin-bottom:1rem}
-.stat{flex:1;background:#f5f5f5;border-radius:8px;padding:.75rem 1rem;text-align:center}
-.stat-num{font-size:24px;font-weight:600}
-.stat-label{font-size:13px;color:#666}
-.alert{padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:12px;background:#FFF8E1;color:#795500;border:1px solid #FFE082}
-.syncing{font-size:12px;color:#888;text-align:right;margin-bottom:8px}
+.stat{flex:1;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.75rem 1rem;text-align:center}
+.stat-num{font-size:24px;font-weight:500;color:var(--color-text-primary)}
+.stat-label{font-size:13px;color:var(--color-text-secondary)}
+
+/* === ROSA === */
+.role-badge{display:inline-flex;align-items:center;gap:4px;font-size:12px;padding:3px 10px;border-radius:20px;font-weight:500;border:1px solid transparent}
+.role-palleggiatrice{background:#EEF6FF;color:#1a5fa8;border-color:#b0d0f5}
+.role-libero{background:#FFF4E5;color:#8a5000;border-color:#f5c876}
+.role-martello{background:#F3F0FF;color:#5b2fa8;border-color:#c4b0f5}
+.role-opposto{background:#FFF0F3;color:#a8182a;border-color:#f5b0bc}
+.role-centrale{background:#EDFFF5;color:#0a6632;border-color:#80dba6}
+
+/* Field diagram */
+.court-wrap{background:linear-gradient(160deg,#1a8a3a 0%,#1d6e31 100%);border-radius:12px;padding:16px 20px;margin-bottom:16px;position:relative;overflow:hidden}
+.court-wrap::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,0.03) 0px,rgba(255,255,255,0.03) 1px,transparent 1px,transparent 60px);pointer-events:none}
+.court-label{font-size:10px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,0.5);text-align:center;text-transform:uppercase;margin-bottom:10px}
+.court{width:100%;max-width:400px;margin:0 auto;border:2px solid rgba(255,255,255,0.75);border-radius:2px;display:flex;flex-direction:column}
+.court-half{display:grid;grid-template-columns:1fr 1fr 1fr;padding:10px 6px}
+.court-cell{display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 2px}
+.pos-dot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:white;border:2px solid rgba(255,255,255,0.3)}
+.pos-label{font-size:8px;color:rgba(255,255,255,0.75);font-weight:600;text-align:center;text-transform:uppercase;letter-spacing:.5px}
+.net{height:8px;background:rgba(255,255,255,0.85);position:relative;display:flex;align-items:center;justify-content:center}
+.net::before,.net::after{content:'';position:absolute;top:50%;width:100%;height:1px;background:rgba(255,255,255,0.4)}
+.net-label{font-size:9px;font-weight:800;color:#1a8a3a;background:white;padding:1px 6px;border-radius:2px;position:relative;z-index:1;letter-spacing:1px}
+.attack-line{height:1px;background:rgba(255,255,255,0.35);margin:0 6px}
+.pd{background:#1a5fa8}.ld{background:#8a5000}.md{background:#5b2fa8}.od{background:#a8182a}.cd{background:#0a6632}
+
+.role-legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+
+/* Rosa cards */
+.rosa-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.rosa-header h2{font-size:16px;font-weight:600;color:var(--color-text-primary)}
+.rosa-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.rosa-card{background:white;border:0.5px solid var(--color-border-tertiary);border-radius:14px;padding:1rem;display:flex;flex-direction:column;align-items:center;gap:7px;transition:box-shadow .15s}
+.rosa-card:hover{box-shadow:0 2px 14px rgba(0,0,0,0.09)}
+.rosa-avatar{width:68px;height:68px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:26px;overflow:hidden;flex-shrink:0;border:2px solid var(--color-border-tertiary)}
+.rosa-avatar img{width:100%;height:100%;object-fit:cover}
+.rosa-name{font-size:13px;font-weight:600;color:var(--color-text-primary);text-align:center;line-height:1.3}
+.rosa-words{font-size:11px;color:var(--color-text-secondary);text-align:center;font-style:italic;line-height:1.4}
+.rosa-actions{display:flex;gap:5px;margin-top:2px}
+.rosa-actions button{padding:3px 9px;font-size:11px}
+
+/* Modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:100;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.open{display:flex}
+.modal{background:white;border-radius:16px;padding:1.5rem;width:100%;max-width:380px;max-height:90vh;overflow-y:auto}
+.modal h3{font-size:16px;font-weight:600;margin-bottom:1.25rem}
+.form-group{margin-bottom:12px}
+.form-group label{display:block;font-size:12px;color:var(--color-text-secondary);margin-bottom:4px;font-weight:500;text-transform:uppercase;letter-spacing:.5px}
+.form-group input,.form-group select{width:100%;flex:none;min-width:0}
+.avatar-area{width:76px;height:76px;border-radius:50%;border:2px dashed #ccc;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;position:relative;background:#f9f9f9;margin:0 auto 16px;transition:border-color .15s}
+.avatar-area:hover{border-color:#888}
+.avatar-area img{width:100%;height:100%;object-fit:cover}
+.avatar-placeholder{font-size:11px;color:#aaa;text-align:center;padding:4px;pointer-events:none;line-height:1.3}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem}
 </style>
 </head>
 <body>
@@ -57,19 +126,22 @@ button.danger:hover{background:#fff5f5}
   <h1>🏐 Pallavolo Amatoriale</h1>
   <p class="subtitle">Gestione giocatori, allenamenti e squadre</p>
   <a class="gym-link" href="https://maps.app.goo.gl/5UsuibHvX69ceocNA" target="_blank">
-    📍 Palestra — apri in Maps
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+    Palestra — apri in Maps
   </a>
 
   <div class="tabs">
     <button class="tab active" onclick="showTab('players')">Giocatori</button>
+    <button class="tab" onclick="showTab('rosa')">🏐 Rosa</button>
     <button class="tab" onclick="showTab('schedule')">Allenamenti</button>
     <button class="tab" onclick="showTab('teams')">Squadre</button>
   </div>
 
+  <!-- GIOCATORI -->
   <div id="players" class="section active">
     <div class="card">
       <div class="row">
-        <input id="pname" type="text" placeholder="Nome giocatore" onkeydown="if(event.key==='Enter')addPlayer()"/>
+        <input id="pname" type="text" placeholder="Nome giocatore" />
         <select id="pgender">
           <option value="M">Maschio</option>
           <option value="F">Femmina</option>
@@ -82,10 +154,109 @@ button.danger:hover{background:#fff5f5}
       <div class="stat"><div class="stat-num" id="m-count" style="color:#185FA5">0</div><div class="stat-label">maschi</div></div>
       <div class="stat"><div class="stat-num" id="f-count" style="color:#993556">0</div><div class="stat-label">femmine</div></div>
     </div>
-    <div class="syncing" id="sync-status">Connessione in corso...</div>
     <div class="player-list" id="player-list"></div>
   </div>
 
+  <!-- ROSA -->
+  <div id="rosa" class="section">
+    <div class="card">
+      <div class="rosa-header">
+        <h2>Giocatori principali</h2>
+        <button class="primary" onclick="openRosaModal(null)">+ Aggiungi</button>
+      </div>
+
+      <!-- Campo decorativo — formazione 6-2 con posizioni corrette -->
+      <!-- Prima linea (zona rete): Martello(4) - Centrale(3) - Opposto(2) -->
+      <!-- Seconda linea (difesa): Palleggiatore(1) - Libero(6) - Martello(5) -->
+      <!-- Il Libero gioca SOLO in seconda linea, sostituisce il Centrale in difesa -->
+      <div class="court-wrap">
+        <div class="court-label">Posizioni in campo (sistema 5-1)</div>
+        <div class="court">
+          <!-- FONDOCAMPO: P(1) - L(6) - M(5) — Libero SOLO qui -->
+          <div class="court-half">
+            <div class="court-cell">
+              <div class="pos-dot md">M</div>
+              <div class="pos-label">Martello<br/>pos.5</div>
+            </div>
+            <div class="court-cell">
+              <div class="pos-dot ld">L</div>
+              <div class="pos-label">Libero<br/>pos.6</div>
+            </div>
+            <div class="court-cell">
+              <div class="pos-dot pd">P</div>
+              <div class="pos-label">Pallegg.<br/>pos.1</div>
+            </div>
+          </div>
+          <div class="attack-line"></div>
+          <!-- PRIMA LINEA (vicino rete): M(4) - C(3) - O(2) -->
+          <div class="court-half" style="padding-top:6px;padding-bottom:6px">
+            <div class="court-cell">
+              <div class="pos-dot md">M</div>
+              <div class="pos-label">Martello<br/>pos.4</div>
+            </div>
+            <div class="court-cell">
+              <div class="pos-dot cd">C</div>
+              <div class="pos-label">Centrale<br/>pos.3</div>
+            </div>
+            <div class="court-cell">
+              <div class="pos-dot od">O</div>
+              <div class="pos-label">Opposto<br/>pos.2</div>
+            </div>
+          </div>
+          <div class="net"><span class="net-label">NET</span></div>
+          <!-- Squadra avversaria — specchio, opaca -->
+          <div class="court-half" style="padding-top:6px;padding-bottom:6px;opacity:0.45">
+            <div class="court-cell">
+              <div class="pos-dot od">O</div>
+              <div class="pos-label">pos.2</div>
+            </div>
+            <div class="court-cell">
+              <div class="pos-dot cd">C</div>
+              <div class="pos-label">pos.3</div>
+            </div>
+            <div class="court-cell">
+              <div class="pos-dot md">M</div>
+              <div class="pos-label">pos.4</div>
+            </div>
+          </div>
+          <div class="attack-line"></div>
+          <div class="court-half" style="opacity:0.45">
+            <div class="court-cell">
+              <div class="pos-dot pd">P</div>
+              <div class="pos-label">pos.1</div>
+            </div>
+            <div class="court-cell">
+              <div class="pos-dot ld">L</div>
+              <div class="pos-label">pos.6</div>
+            </div>
+            <div class="court-cell">
+              <div class="pos-dot md">M</div>
+              <div class="pos-label">pos.5</div>
+            </div>
+          </div>
+        </div>
+        <!-- Nota libero -->
+        <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,0.65);text-align:center;letter-spacing:.3px">
+          🛡️ Il Libero gioca solo in seconda linea — sostituisce il Centrale in difesa
+        </div>
+      </div>
+
+      <!-- Legenda -->
+      <div class="role-legend">
+        <span class="role-badge role-palleggiatrice">🎯 Palleggiatrice/ore</span>
+        <span class="role-badge role-libero">🛡️ Libero</span>
+        <span class="role-badge role-martello">⚡ Martello</span>
+        <span class="role-badge role-opposto">🔥 Opposto</span>
+        <span class="role-badge role-centrale">🏔️ Centrale</span>
+      </div>
+    </div>
+
+    <div class="rosa-grid" id="rosa-grid">
+      <div class="empty" style="grid-column:1/-1">Nessun giocatore. Clicca "+ Aggiungi" per iniziare.</div>
+    </div>
+  </div>
+
+  <!-- ALLENAMENTI -->
   <div id="schedule" class="section">
     <div class="card">
       <div class="row">
@@ -94,17 +265,18 @@ button.danger:hover{background:#fff5f5}
           <option>Giovedì</option><option>Venerdì</option><option>Sabato</option><option>Domenica</option>
         </select>
         <input id="stime" type="time" value="20:00" style="min-width:90px;flex:0"/>
-        <input id="snote" type="text" placeholder="Note (palestra, campo...)" onkeydown="if(event.key==='Enter')addSlot()"/>
+        <input id="snote" type="text" placeholder="Note (palestra, campo...)" />
         <button class="primary" onclick="addSlot()">Aggiungi</button>
       </div>
     </div>
     <div id="schedule-list"></div>
   </div>
 
+  <!-- SQUADRE -->
   <div id="teams" class="section">
     <div class="card">
       <div class="row">
-        <div style="flex:1;font-size:14px;color:#666">Le femmine vengono distribuite equamente. I voti bilanciano il livello.</div>
+        <div style="flex:1;font-size:14px;color:var(--color-text-secondary)">Le femmine vengono distribuite equamente. I voti bilanciano il livello.</div>
         <select id="numteams">
           <option value="2">2 squadre</option>
           <option value="3">3 squadre</option>
@@ -117,126 +289,256 @@ button.danger:hover{background:#fff5f5}
   </div>
 </div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, set, remove, onValue, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+<!-- MODAL -->
+<div class="modal-overlay" id="rosa-modal" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <h3 id="modal-title">Aggiungi giocatore</h3>
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCeLMSNaWLiIsNkoTKuOS-u_kZJN0pgKjA",
-  authDomain: "pallavolo-8b6b1.firebaseapp.com",
-  databaseURL: "https://pallavolo-8b6b1-default-rtdb.firebaseio.com",
-  projectId: "pallavolo-8b6b1",
-  storageBucket: "pallavolo-8b6b1.firebasestorage.app",
-  messagingSenderId: "74477657469",
-  appId: "1:74477657469:web:a4ee8c6915109efbd54014"
-};
+    <div class="avatar-area" id="avatar-area" onclick="document.getElementById('avatar-input').click()">
+      <img id="avatar-preview" src="" style="display:none;width:100%;height:100%;object-fit:cover"/>
+      <div class="avatar-placeholder" id="avatar-placeholder">📷<br/>Carica foto</div>
+      <input type="file" id="avatar-input" accept="image/*" style="position:absolute;opacity:0;width:0;height:0" onchange="previewAvatar(event)"/>
+    </div>
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+    <div class="form-group">
+      <label>Nome</label>
+      <input type="text" id="modal-name" placeholder="Nome e cognome"/>
+    </div>
+    <div class="form-group">
+      <label>Ruolo</label>
+      <select id="modal-role">
+        <option value="palleggiatrice">🎯 Palleggiatrice/ore</option>
+        <option value="libero">🛡️ Libero</option>
+        <option value="martello">⚡ Martello / Schiacciatore</option>
+        <option value="opposto">🔥 Opposto</option>
+        <option value="centrale">🏔️ Centrale</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>3 parole che ti descrivono</label>
+      <input type="text" id="modal-words" placeholder="es. veloce, precisa, tenace"/>
+    </div>
+    <div class="modal-btns">
+      <button onclick="closeRosaModal()">Annulla</button>
+      <button class="primary" onclick="saveRosaPlayer()">Salva</button>
+    </div>
+  </div>
+</div>
 
-let players = {};
-let schedule = {};
+<script>
+let players = JSON.parse(localStorage.getItem('vb_players') || '[]');
+let schedule = JSON.parse(localStorage.getItem('vb_schedule') || '[]');
+let rosaPlayers = JSON.parse(localStorage.getItem('vb_rosa') || '[]');
+let editingRosaId = null;
+let tempAvatarData = null;
 
-// Listen to players
-onValue(ref(db, 'players'), (snapshot) => {
-  players = snapshot.val() || {};
-  document.getElementById('sync-status').textContent = '✓ Sincronizzato';
-  renderPlayers();
-});
+function save() {
+  try {
+    localStorage.setItem('vb_players', JSON.stringify(players));
+    localStorage.setItem('vb_schedule', JSON.stringify(schedule));
+    localStorage.setItem('vb_rosa', JSON.stringify(rosaPlayers));
+  } catch(e) { console.warn('Storage error', e); }
+}
 
-// Listen to schedule
-onValue(ref(db, 'schedule'), (snapshot) => {
-  schedule = snapshot.val() || {};
-  renderSchedule();
-});
-
-window.showTab = function(t) {
-  document.querySelectorAll('.tab').forEach((b,i)=>{b.classList.toggle('active',['players','schedule','teams'][i]===t)});
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+function showTab(t) {
+  const tabs = ['players','rosa','schedule','teams'];
+  document.querySelectorAll('.tab').forEach((b,i) => b.classList.toggle('active', tabs[i]===t));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.getElementById(t).classList.add('active');
 }
 
-window.addPlayer = function() {
+// PLAYERS
+function addPlayer() {
   const n = document.getElementById('pname').value.trim();
-  if(!n) return;
-  const newRef = push(ref(db, 'players'));
-  set(newRef, {name: n, gender: document.getElementById('pgender').value, rating: 3});
+  if (!n) return;
+  players.push({id:Date.now(), name:n, gender:document.getElementById('pgender').value, rating:3});
   document.getElementById('pname').value = '';
+  save(); renderPlayers();
 }
-
-window.setRating = function(id, r) {
-  set(ref(db, 'players/' + id + '/rating'), r);
-}
-
-window.removePlayer = function(id) {
-  remove(ref(db, 'players/' + id));
-}
-
-window.addSlot = function() {
-  const newRef = push(ref(db, 'schedule'));
-  set(newRef, {
-    day: document.getElementById('sday').value,
-    time: document.getElementById('stime').value,
-    note: document.getElementById('snote').value.trim()
-  });
-  document.getElementById('snote').value = '';
-}
-
-window.removeSlot = function(id) {
-  remove(ref(db, 'schedule/' + id));
-}
-
+function setRating(id,r) { const p=players.find(x=>x.id===id); if(p){p.rating=r;save();renderPlayers();} }
+function removePlayer(id) { players=players.filter(x=>x.id!==id); save(); renderPlayers(); }
 function renderPlayers() {
-  const list = Object.entries(players);
-  document.getElementById('tot-count').textContent = list.length;
-  document.getElementById('m-count').textContent = list.filter(([,p])=>p.gender==='M').length;
-  document.getElementById('f-count').textContent = list.filter(([,p])=>p.gender==='F').length;
   const el = document.getElementById('player-list');
-  if(!list.length){el.innerHTML='<div class="empty">Nessun giocatore. Aggiungine uno sopra.</div>';return;}
-  el.innerHTML = list.map(([id,p])=>`
+  document.getElementById('tot-count').textContent = players.length;
+  document.getElementById('m-count').textContent = players.filter(p=>p.gender==='M').length;
+  document.getElementById('f-count').textContent = players.filter(p=>p.gender==='F').length;
+  if (!players.length) { el.innerHTML='<div class="empty">Nessun giocatore. Aggiungine uno sopra.</div>'; return; }
+  el.innerHTML = players.map(p=>`
     <div class="player-item">
       <span class="player-name">${p.name}</span>
       <span class="player-gender ${p.gender==='F'?'gender-f':'gender-m'}">${p.gender}</span>
-      <div class="stars">${[1,2,3,4,5].map(i=>`<span class="star${(p.rating||3)>=i?' on':''}" onclick="setRating('${id}',${i})">★</span>`).join('')}</div>
-      <button class="danger" onclick="removePlayer('${id}')" style="padding:4px 10px;font-size:12px">rimuovi</button>
-    </div>
-  `).join('');
+      <div class="stars">${[1,2,3,4,5].map(i=>`<span class="star${p.rating>=i?' on':''}" onclick="setRating(${p.id},${i})">&#9733;</span>`).join('')}</div>
+      <button class="danger" onclick="removePlayer(${p.id})" style="padding:4px 10px;font-size:12px">rimuovi</button>
+    </div>`).join('');
 }
 
+// SCHEDULE
+function addSlot() {
+  schedule.push({id:Date.now(),day:document.getElementById('sday').value,time:document.getElementById('stime').value,note:document.getElementById('snote').value.trim()});
+  schedule.sort((a,b)=>{const d=['Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato','Domenica'];return d.indexOf(a.day)-d.indexOf(b.day)||a.time.localeCompare(b.time);});
+  document.getElementById('snote').value = '';
+  save(); renderSchedule();
+}
+function removeSlot(id) { schedule=schedule.filter(x=>x.id!==id); save(); renderSchedule(); }
 function renderSchedule() {
   const el = document.getElementById('schedule-list');
-  const days = ['Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato','Domenica'];
-  const list = Object.entries(schedule).sort((a,b)=>days.indexOf(a[1].day)-days.indexOf(b[1].day)||a[1].time.localeCompare(b[1].time));
-  if(!list.length){el.innerHTML='<div class="empty">Nessun allenamento pianificato.</div>';return;}
-  el.innerHTML = list.map(([id,s])=>`
+  if (!schedule.length) { el.innerHTML='<div class="empty">Nessun allenamento pianificato.</div>'; return; }
+  el.innerHTML = schedule.map(s=>`
     <div class="schedule-item">
       <span class="day-badge">${s.day}</span>
       <span class="sched-time">${s.time}</span>
       <span class="sched-note">${s.note||''}</span>
-      <button class="danger" onclick="removeSlot('${id}')" style="padding:4px 10px;font-size:12px">rimuovi</button>
-    </div>
-  `).join('');
+      <button class="danger" onclick="removeSlot(${s.id})" style="padding:4px 10px;font-size:12px">rimuovi</button>
+    </div>`).join('');
 }
 
-window.generateTeams = function() {
+// TEAMS
+function generateTeams() {
   const n = parseInt(document.getElementById('numteams').value);
-  const list = Object.values(players);
-  if(list.length < n){document.getElementById('teams-output').innerHTML='<div class="alert">Non ci sono abbastanza giocatori per '+n+' squadre.</div>';return;}
-  const females = list.filter(p=>p.gender==='F').sort(()=>Math.random()-.5);
-  const males = list.filter(p=>p.gender==='M').sort(()=>Math.random()-.5);
+  if (players.length < n) { document.getElementById('teams-output').innerHTML='<div class="alert">Non ci sono abbastanza giocatori per '+n+' squadre.</div>'; return; }
+  const females = [...players.filter(p=>p.gender==='F')].sort(()=>Math.random()-.5);
+  const males = [...players.filter(p=>p.gender==='M')].sort(()=>Math.random()-.5);
   const teams = Array.from({length:n},(_,i)=>({name:'Squadra '+(i+1),players:[],totalRating:0}));
-  [...females].sort((a,b)=>b.rating-a.rating).forEach((p,i)=>{const t=teams[i%n];t.players.push(p);t.totalRating+=(p.rating||3);});
-  [...males].sort((a,b)=>b.rating-a.rating).forEach(p=>{const t=teams.reduce((m,c)=>c.totalRating<m.totalRating?c:m);t.players.push(p);t.totalRating+=(p.rating||3);});
+  [...females].sort((a,b)=>b.rating-a.rating).forEach((p,i)=>{const t=teams[i%n];t.players.push(p);t.totalRating+=p.rating;});
+  [...males].sort((a,b)=>b.rating-a.rating).forEach(p=>{const t=teams.reduce((m,c)=>c.totalRating<m.totalRating?c:m);t.players.push(p);t.totalRating+=p.rating;});
   document.getElementById('teams-output').innerHTML=`
-    <div style="margin-bottom:8px;font-size:13px;color:#888">Rigenera per un sorteggio diverso.</div>
+    <div style="margin-bottom:8px;font-size:13px;color:var(--color-text-secondary)">Rigenera per un sorteggio diverso.</div>
     <div class="team-grid">${teams.map(t=>`
       <div class="team-card">
-        <div class="team-title"><span>${t.name}</span><span style="font-size:12px;color:#888">media ${(t.totalRating/Math.max(t.players.length,1)).toFixed(1)} ★</span></div>
-        ${t.players.map(p=>`<div class="team-player"><span>${p.name} <span class="player-gender ${p.gender==='F'?'gender-f':'gender-m'}" style="font-size:10px;padding:1px 5px">${p.gender}</span></span><span style="color:#BA7517;font-size:12px">${'★'.repeat(p.rating||3)}</span></div>`).join('')}
+        <div class="team-title"><span>${t.name}</span><span style="font-size:12px;color:var(--color-text-secondary)">media ${(t.totalRating/Math.max(t.players.length,1)).toFixed(1)} ★</span></div>
+        ${t.players.map(p=>`<div class="team-player"><span>${p.name} <span class="player-gender ${p.gender==='F'?'gender-f':'gender-m'}" style="font-size:10px;padding:1px 5px">${p.gender}</span></span><span class="score-badge">${'★'.repeat(p.rating)}</span></div>`).join('')}
       </div>`).join('')}
     </div>
     <button onclick="generateTeams()" style="margin-top:12px">Rigenera</button>`;
 }
+
+// ROSA
+const roleLabels = {
+  palleggiatrice: '🎯 Palleggiatrice/ore',
+  libero: '🛡️ Libero',
+  martello: '⚡ Martello',
+  opposto: '🔥 Opposto',
+  centrale: '🏔️ Centrale'
+};
+
+function openRosaModal(id) {
+  editingRosaId = id;
+  tempAvatarData = null;
+  document.getElementById('modal-title').textContent = id ? 'Modifica giocatore' : 'Aggiungi giocatore';
+  document.getElementById('avatar-preview').style.display = 'none';
+  document.getElementById('avatar-preview').src = '';
+  document.getElementById('avatar-placeholder').style.display = 'flex';
+  document.getElementById('avatar-placeholder').style.flexDirection = 'column';
+  document.getElementById('avatar-placeholder').style.alignItems = 'center';
+  document.getElementById('avatar-input').value = '';
+
+  if (id) {
+    const p = rosaPlayers.find(x=>x.id===id);
+    if (p) {
+      document.getElementById('modal-name').value = p.name;
+      document.getElementById('modal-role').value = p.role;
+      document.getElementById('modal-words').value = p.words || '';
+      if (p.avatar) {
+        document.getElementById('avatar-preview').src = p.avatar;
+        document.getElementById('avatar-preview').style.display = 'block';
+        document.getElementById('avatar-placeholder').style.display = 'none';
+      }
+    }
+  } else {
+    document.getElementById('modal-name').value = '';
+    document.getElementById('modal-role').value = 'palleggiatrice';
+    document.getElementById('modal-words').value = '';
+  }
+  document.getElementById('rosa-modal').classList.add('open');
+}
+
+function closeRosaModal() {
+  document.getElementById('rosa-modal').classList.remove('open');
+  editingRosaId = null;
+  tempAvatarData = null;
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('rosa-modal')) closeRosaModal();
+}
+
+function previewAvatar(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  // Resize image before storing to keep localStorage manageable
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      const MAX = 200;
+      let w = img.width, h = img.height;
+      if (w > h) { if(w>MAX){h=h*MAX/w;w=MAX;} } else { if(h>MAX){w=w*MAX/h;h=MAX;} }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      tempAvatarData = canvas.toDataURL('image/jpeg', 0.75);
+      document.getElementById('avatar-preview').src = tempAvatarData;
+      document.getElementById('avatar-preview').style.display = 'block';
+      document.getElementById('avatar-placeholder').style.display = 'none';
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function saveRosaPlayer() {
+  const name = document.getElementById('modal-name').value.trim();
+  if (!name) { alert('Inserisci il nome'); return; }
+  const role = document.getElementById('modal-role').value;
+  const words = document.getElementById('modal-words').value.trim();
+
+  if (editingRosaId) {
+    const p = rosaPlayers.find(x=>x.id===editingRosaId);
+    if (p) {
+      p.name = name; p.role = role; p.words = words;
+      if (tempAvatarData) p.avatar = tempAvatarData;
+    }
+  } else {
+    rosaPlayers.push({ id:Date.now(), name, role, words, avatar: tempAvatarData||null });
+  }
+  save(); closeRosaModal(); renderRosa();
+}
+
+function removeRosaPlayer(id) {
+  if (!confirm('Rimuovere questo giocatore dalla rosa?')) return;
+  rosaPlayers = rosaPlayers.filter(x=>x.id!==id);
+  save(); renderRosa();
+}
+
+function renderRosa() {
+  const grid = document.getElementById('rosa-grid');
+  if (!rosaPlayers.length) {
+    grid.innerHTML = '<div class="empty" style="grid-column:1/-1">Nessun giocatore nella rosa.</div>';
+    return;
+  }
+  const roleOrder = ['palleggiatrice','libero','martello','opposto','centrale'];
+  const sorted = [...rosaPlayers].sort((a,b) => roleOrder.indexOf(a.role) - roleOrder.indexOf(b.role));
+  grid.innerHTML = sorted.map(p => {
+    const av = p.avatar
+      ? `<img src="${p.avatar}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover"/>`
+      : `<span style="font-size:26px">👤</span>`;
+    return `
+      <div class="rosa-card">
+        <div class="rosa-avatar">${av}</div>
+        <div class="rosa-name">${p.name}</div>
+        <span class="role-badge role-${p.role}">${roleLabels[p.role]||p.role}</span>
+        ${p.words ? `<div class="rosa-words">"${p.words}"</div>` : ''}
+        <div class="rosa-actions">
+          <button style="padding:3px 9px;font-size:11px;color:#1a5fa8;border-color:#1a5fa8" onclick="openRosaModal(${p.id})">✏️ Modifica</button>
+          <button class="danger" onclick="removeRosaPlayer(${p.id})" style="padding:3px 9px;font-size:11px">✕</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+renderPlayers();
+renderSchedule();
+renderRosa();
 </script>
 </body>
 </html>
