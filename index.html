@@ -182,6 +182,53 @@ button.danger{color:#A32D2D;border-color:#A32D2D}
 .palleg-btn{padding:4px 10px;font-size:12px;border-radius:6px;border:1.5px solid rgba(255,255,255,0.4);background:rgba(255,255,255,0.1);color:white;cursor:pointer;transition:all .15s}
 .palleg-btn:hover,.palleg-btn.active-pos{background:rgba(255,255,255,0.9);color:#166030;border-color:white;font-weight:600}
 </style>
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCeLMSNaWLiIsNkoTKuOS-u_kZJN0pgKjA",
+    authDomain: "pallavolo-8b6b1.firebaseapp.com",
+    databaseURL: "https://pallavolo-8b6b1-default-rtdb.firebaseio.com",
+    projectId: "pallavolo-8b6b1",
+    storageBucket: "pallavolo-8b6b1.firebasestorage.app",
+    messagingSenderId: "74477657469",
+    appId: "1:74477657469:web:a4ee8c6915109efbd54014",
+    measurementId: "G-EZ2JCLRG07"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  // Expose db functions globally so existing code can use them
+  window._fbDb = db;
+  window._fbRef = ref;
+  window._fbSet = set;
+  window._fbOnValue = onValue;
+  window._fbRemove = remove;
+
+  // Listen to all data and sync to local vars
+  onValue(ref(db, 'players'), snap => {
+    window._players = snap.val() ? Object.values(snap.val()) : [];
+    if(window.renderPlayers) window.renderPlayers();
+  });
+  onValue(ref(db, 'schedule'), snap => {
+    window._schedule = snap.val() ? Object.values(snap.val()) : [];
+    if(window.renderSchedule) window.renderSchedule();
+  });
+  onValue(ref(db, 'rosa'), snap => {
+    window._rosa = snap.val() ? Object.values(snap.val()) : [];
+    if(window.renderRosa) { window.renderRosa(); window.populateRosaSchemaSelect && window.populateRosaSchemaSelect(); }
+  });
+  onValue(ref(db, 'schemas'), snap => {
+    window._schemas = snap.val() ? Object.values(snap.val()) : [];
+    if(window.renderSchemaList) { window.renderSchemaList(); window.populateRosaSchemaSelect && window.populateRosaSchemaSelect(); }
+  });
+
+  window._fbReady = true;
+  console.log('Firebase connected!');
+</script>
 </head>
 <body>
 <div class="app">
@@ -434,31 +481,56 @@ button.danger{color:#A32D2D;border-color:#A32D2D}
 
 <script>
 // ===================== DATA =====================
-let players = JSON.parse(localStorage.getItem('vb_players') || '[]');
-let schedule = JSON.parse(localStorage.getItem('vb_schedule') || '[]');
-let rosaPlayers = JSON.parse(localStorage.getItem('vb_rosa') || '[]');
-let schemas = JSON.parse(localStorage.getItem('vb_schemas') || '[]');
+// Data is synced from Firebase via window._players etc.
+// Local vars are proxies that always read from window._* 
 let editingRosaId = null;
 let tempAvatarData = null;
 
+// Proxy getters so existing code works unchanged
+Object.defineProperty(window, 'players', { get: () => window._players || [], set: v => { window._players = v; } });
+Object.defineProperty(window, 'schedule', { get: () => window._schedule || [], set: v => { window._schedule = v; } });
+Object.defineProperty(window, 'rosaPlayers', { get: () => window._rosa || [], set: v => { window._rosa = v; } });
+Object.defineProperty(window, 'schemas', { get: () => window._schemas || [], set: v => { window._schemas = v; } });
+
+window._players = [];
+window._schedule = [];
+window._rosa = [];
+window._schemas = [];
+
 // Schema state
-// courtState: { pos: { 1..6: playerId|null } }  for each rotation
-// We keep 6 rotations. courtState[rotIdx] = {1:id, 2:id, ...6:id}
 let currentSchemaName = '';
-let currentRotation = 0; // 0-based index (rotation 1..6)
+let currentRotation = 0;
 let courtState = Array.from({length:6}, () => ({1:null,2:null,3:null,4:null,5:null,6:null}));
-// pallegPos: which position the palleggiatore starts at (1-6)
 let pallegPos = 1;
 let dragPlayerId = null;
-let dragFromPos = null; // null = bench, number = court pos
+let dragFromPos = null;
 
 function save() {
-  try {
-    localStorage.setItem('vb_players', JSON.stringify(players));
-    localStorage.setItem('vb_schedule', JSON.stringify(schedule));
-    localStorage.setItem('vb_rosa', JSON.stringify(rosaPlayers));
-    localStorage.setItem('vb_schemas', JSON.stringify(schemas));
-  } catch(e) { console.warn('Storage error', e); }
+  // Save to Firebase instead of localStorage
+  if (!window._fbDb) return;
+  const db = window._fbDb;
+  const fbRef = window._fbRef;
+  const fbSet = window._fbSet;
+
+  // Players
+  const playersObj = {};
+  (window._players||[]).forEach(p => { playersObj['p'+p.id] = p; });
+  fbSet(fbRef(db, 'players'), Object.keys(playersObj).length ? playersObj : null);
+
+  // Schedule
+  const schedObj = {};
+  (window._schedule||[]).forEach(s => { schedObj['s'+s.id] = s; });
+  fbSet(fbRef(db, 'schedule'), Object.keys(schedObj).length ? schedObj : null);
+
+  // Rosa - save without large base64 if needed
+  const rosaObj = {};
+  (window._rosa||[]).forEach(p => { rosaObj['r'+p.id] = p; });
+  fbSet(fbRef(db, 'rosa'), Object.keys(rosaObj).length ? rosaObj : null);
+
+  // Schemas
+  const schemasObj = {};
+  (window._schemas||[]).forEach(s => { schemasObj['sc'+s.id] = s; });
+  fbSet(fbRef(db, 'schemas'), Object.keys(schemasObj).length ? schemasObj : null);
 }
 
 // ===================== TABS =====================
@@ -998,11 +1070,29 @@ function updateRosaCourt() {
 }
 
 // ===================== INIT =====================
+// Expose functions globally so Firebase listeners can call them
+window.renderPlayers = renderPlayers;
+window.renderSchedule = renderSchedule;
+window.renderRosa = renderRosa;
+window.renderSchemaList = renderSchemaList;
+window.populateRosaSchemaSelect = populateRosaSchemaSelect;
+
+// Initial render with empty data (Firebase will update via onValue)
 renderPlayers();
 renderSchedule();
 renderRosa();
 renderSchemaList();
 populateRosaSchemaSelect();
+
+// Connection status indicator
+setTimeout(() => {
+  if (!window._fbReady) {
+    const indicator = document.createElement('div');
+    indicator.style.cssText = 'position:fixed;bottom:12px;right:12px;background:#ff4444;color:white;padding:8px 14px;border-radius:8px;font-size:12px;z-index:999';
+    indicator.textContent = '⚠️ Firebase non connesso';
+    document.body.appendChild(indicator);
+  }
+}, 3000);
 </script>
 </body>
 </html>
