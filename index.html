@@ -76,7 +76,7 @@ button.danger{color:#A32D2D;border-color:#A32D2D}
 .role-opposto{background:#FFF0F3;color:#a8182a;border-color:#f5b0bc}
 .role-centrale{background:#EDFFF5;color:#0a6632;border-color:#80dba6}
 
-/* Field diagram */
+/* Field diagram (static in Rosa tab) */
 .court-wrap{background:linear-gradient(160deg,#1a8a3a 0%,#1d6e31 100%);border-radius:12px;padding:16px 20px;margin-bottom:16px;position:relative;overflow:hidden}
 .court-wrap::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,0.03) 0px,rgba(255,255,255,0.03) 1px,transparent 1px,transparent 60px);pointer-events:none}
 .court-label{font-size:10px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,0.5);text-align:center;text-transform:uppercase;margin-bottom:10px}
@@ -86,14 +86,10 @@ button.danger{color:#A32D2D;border-color:#A32D2D}
 .pos-dot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:white;border:2px solid rgba(255,255,255,0.3)}
 .pos-label{font-size:8px;color:rgba(255,255,255,0.75);font-weight:600;text-align:center;text-transform:uppercase;letter-spacing:.5px}
 .net{height:8px;background:rgba(255,255,255,0.85);position:relative;display:flex;align-items:center;justify-content:center}
-.net::before,.net::after{content:'';position:absolute;top:50%;width:100%;height:1px;background:rgba(255,255,255,0.4)}
 .net-label{font-size:9px;font-weight:800;color:#1a8a3a;background:white;padding:1px 6px;border-radius:2px;position:relative;z-index:1;letter-spacing:1px}
 .attack-line{height:1px;background:rgba(255,255,255,0.35);margin:0 6px}
 .pd{background:#1a5fa8}.ld{background:#8a5000}.md{background:#5b2fa8}.od{background:#a8182a}.cd{background:#0a6632}
-
 .role-legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
-
-/* Rosa cards */
 .rosa-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .rosa-header h2{font-size:16px;font-weight:600;color:var(--color-text-primary)}
 .rosa-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
@@ -119,6 +115,72 @@ button.danger{color:#A32D2D;border-color:#A32D2D}
 .avatar-area img{width:100%;height:100%;object-fit:cover}
 .avatar-placeholder{font-size:11px;color:#aaa;text-align:center;padding:4px;pointer-events:none;line-height:1.3}
 .modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem}
+
+/* ===================== SCHEMA TAB ===================== */
+.schema-layout{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}
+
+/* Saved schemas sidebar */
+.schema-sidebar{width:160px;flex-shrink:0}
+.schema-sidebar h3{font-size:13px;font-weight:600;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.schema-list{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.schema-item{padding:7px 10px;border-radius:8px;border:1px solid var(--color-border-tertiary);font-size:13px;cursor:pointer;background:white;display:flex;justify-content:space-between;align-items:center;gap:4px;transition:all .1s}
+.schema-item.active-schema{border-color:#1a5fa8;background:#EEF6FF;color:#1a5fa8;font-weight:600}
+.schema-item:hover{background:var(--color-background-secondary)}
+.schema-del{font-size:11px;color:#A32D2D;cursor:pointer;padding:1px 4px;border-radius:3px;border:none;background:none;flex-shrink:0}
+.schema-del:hover{background:#fbeaea}
+
+/* Interactive court */
+.court-main{flex:1;min-width:280px}
+.schema-controls{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+.schema-controls h3{font-size:14px;font-weight:600;color:var(--color-text-primary)}
+.rotation-nav{display:flex;align-items:center;gap:8px}
+.rot-btn{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;padding:0;border:1px solid var(--color-border-secondary);background:white;cursor:pointer}
+.rot-btn:hover{background:var(--color-background-secondary)}
+.rot-label{font-size:13px;font-weight:600;color:var(--color-text-primary);min-width:60px;text-align:center}
+
+/* The big interactive court */
+.icourt-wrap{background:linear-gradient(170deg,#1c9040 0%,#166030 100%);border-radius:14px;padding:12px;position:relative;user-select:none}
+.icourt-wrap::before{content:'';position:absolute;inset:0;border-radius:14px;background:repeating-linear-gradient(0deg,rgba(255,255,255,0.04) 0px,rgba(255,255,255,0.04) 1px,transparent 1px,transparent 40px),repeating-linear-gradient(90deg,rgba(255,255,255,0.04) 0px,rgba(255,255,255,0.04) 1px,transparent 1px,transparent 40px);pointer-events:none}
+.icourt{width:100%;aspect-ratio:0.65;border:2.5px solid rgba(255,255,255,0.8);border-radius:3px;display:flex;flex-direction:column;position:relative}
+.icourt-half{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;flex:1;position:relative}
+.icourt-attackline{height:2px;background:rgba(255,255,255,0.5);margin:0}
+.icourt-net{height:10px;background:rgba(255,255,255,0.9);position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.icourt-net-label{font-size:9px;font-weight:800;color:#166030;background:white;padding:1px 8px;border-radius:2px;position:relative;z-index:1;letter-spacing:1.5px}
+
+/* Drop zones */
+.drop-zone{display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer;transition:background .15s;border-radius:4px;margin:3px}
+.drop-zone.drag-over{background:rgba(255,255,255,0.25) !important}
+.drop-zone-label{font-size:9px;color:rgba(255,255,255,0.4);font-weight:600;position:absolute;bottom:3px;right:5px;letter-spacing:.5px}
+
+/* Player token on court */
+.court-token{width:52px;height:52px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:grab;position:relative;border:2.5px solid rgba(255,255,255,0.7);box-shadow:0 2px 8px rgba(0,0,0,0.3);transition:transform .1s;overflow:hidden;background:#444;flex-shrink:0}
+.court-token:active{cursor:grabbing;transform:scale(1.08)}
+.court-token img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.court-token-initials{font-size:14px;font-weight:800;color:white}
+.court-token-name{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:700;color:white;text-shadow:0 1px 3px rgba(0,0,0,0.8);white-space:nowrap;background:rgba(0,0,0,0.5);padding:1px 5px;border-radius:4px;pointer-events:none}
+.court-token-role-dot{position:absolute;top:1px;right:1px;width:12px;height:12px;border-radius:50%;border:1.5px solid white}
+
+/* Bench area */
+.bench-area{margin-top:10px;background:rgba(0,0,0,0.15);border-radius:10px;padding:10px}
+.bench-label{font-size:10px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:8px}
+.bench-players{display:flex;flex-wrap:wrap;gap:8px;min-height:60px}
+.bench-players.drag-over{background:rgba(255,255,255,0.1);border-radius:8px}
+.bench-token{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:grab;border:2px solid rgba(255,255,255,0.4);box-shadow:0 1px 5px rgba(0,0,0,0.25);overflow:hidden;background:#444;flex-shrink:0;position:relative}
+.bench-token:active{cursor:grabbing;transform:scale(1.05)}
+.bench-token img{width:100%;height:100%;object-fit:cover}
+.bench-token-initials{font-size:12px;font-weight:800;color:white}
+.bench-token-tooltip{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:700;color:white;text-shadow:0 1px 3px rgba(0,0,0,0.8);white-space:nowrap;background:rgba(0,0,0,0.6);padding:1px 5px;border-radius:4px;pointer-events:none;opacity:0;transition:opacity .15s}
+.bench-token:hover .bench-token-tooltip{opacity:1}
+
+/* Schema name input */
+.schema-name-row{display:flex;gap:8px;margin-bottom:10px;align-items:center}
+.schema-name-row input{font-size:14px;font-weight:500;flex:1}
+
+/* Palleggiatore selector */
+.palleg-selector{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.palleg-selector label{font-size:12px;color:rgba(255,255,255,0.7);font-weight:600}
+.palleg-btn{padding:4px 10px;font-size:12px;border-radius:6px;border:1.5px solid rgba(255,255,255,0.4);background:rgba(255,255,255,0.1);color:white;cursor:pointer;transition:all .15s}
+.palleg-btn:hover,.palleg-btn.active-pos{background:rgba(255,255,255,0.9);color:#166030;border-color:white;font-weight:600}
 </style>
 </head>
 <body>
@@ -133,6 +195,7 @@ button.danger{color:#A32D2D;border-color:#A32D2D}
   <div class="tabs">
     <button class="tab active" onclick="showTab('players')">Giocatori</button>
     <button class="tab" onclick="showTab('rosa')">🏐 Rosa</button>
+    <button class="tab" onclick="showTab('schema')">⚡ Schema</button>
     <button class="tab" onclick="showTab('schedule')">Allenamenti</button>
     <button class="tab" onclick="showTab('teams')">Squadre</button>
   </div>
@@ -164,84 +227,35 @@ button.danger{color:#A32D2D;border-color:#A32D2D}
         <h2>Giocatori principali</h2>
         <button class="primary" onclick="openRosaModal(null)">+ Aggiungi</button>
       </div>
-
-      <!-- Campo decorativo — formazione 6-2 con posizioni corrette -->
-      <!-- Prima linea (zona rete): Martello(4) - Centrale(3) - Opposto(2) -->
-      <!-- Seconda linea (difesa): Palleggiatore(1) - Libero(6) - Martello(5) -->
-      <!-- Il Libero gioca SOLO in seconda linea, sostituisce il Centrale in difesa -->
       <div class="court-wrap">
         <div class="court-label">Posizioni in campo (sistema 5-1)</div>
         <div class="court">
-          <!-- FONDOCAMPO: P(1) - L(6) - M(5) — Libero SOLO qui -->
           <div class="court-half">
-            <div class="court-cell">
-              <div class="pos-dot md">M</div>
-              <div class="pos-label">Martello<br/>pos.5</div>
-            </div>
-            <div class="court-cell">
-              <div class="pos-dot ld">L</div>
-              <div class="pos-label">Libero<br/>pos.6</div>
-            </div>
-            <div class="court-cell">
-              <div class="pos-dot pd">P</div>
-              <div class="pos-label">Pallegg.<br/>pos.1</div>
-            </div>
+            <div class="court-cell"><div class="pos-dot md">M</div><div class="pos-label">Martello<br/>pos.5</div></div>
+            <div class="court-cell"><div class="pos-dot ld">L</div><div class="pos-label">Libero<br/>pos.6</div></div>
+            <div class="court-cell"><div class="pos-dot pd">P</div><div class="pos-label">Pallegg.<br/>pos.1</div></div>
           </div>
           <div class="attack-line"></div>
-          <!-- PRIMA LINEA (vicino rete): M(4) - C(3) - O(2) -->
           <div class="court-half" style="padding-top:6px;padding-bottom:6px">
-            <div class="court-cell">
-              <div class="pos-dot md">M</div>
-              <div class="pos-label">Martello<br/>pos.4</div>
-            </div>
-            <div class="court-cell">
-              <div class="pos-dot cd">C</div>
-              <div class="pos-label">Centrale<br/>pos.3</div>
-            </div>
-            <div class="court-cell">
-              <div class="pos-dot od">O</div>
-              <div class="pos-label">Opposto<br/>pos.2</div>
-            </div>
+            <div class="court-cell"><div class="pos-dot md">M</div><div class="pos-label">Martello<br/>pos.4</div></div>
+            <div class="court-cell"><div class="pos-dot cd">C</div><div class="pos-label">Centrale<br/>pos.3</div></div>
+            <div class="court-cell"><div class="pos-dot od">O</div><div class="pos-label">Opposto<br/>pos.2</div></div>
           </div>
           <div class="net"><span class="net-label">NET</span></div>
-          <!-- Squadra avversaria — specchio, opaca -->
           <div class="court-half" style="padding-top:6px;padding-bottom:6px;opacity:0.45">
-            <div class="court-cell">
-              <div class="pos-dot od">O</div>
-              <div class="pos-label">pos.2</div>
-            </div>
-            <div class="court-cell">
-              <div class="pos-dot cd">C</div>
-              <div class="pos-label">pos.3</div>
-            </div>
-            <div class="court-cell">
-              <div class="pos-dot md">M</div>
-              <div class="pos-label">pos.4</div>
-            </div>
+            <div class="court-cell"><div class="pos-dot od">O</div><div class="pos-label">pos.2</div></div>
+            <div class="court-cell"><div class="pos-dot cd">C</div><div class="pos-label">pos.3</div></div>
+            <div class="court-cell"><div class="pos-dot md">M</div><div class="pos-label">pos.4</div></div>
           </div>
           <div class="attack-line"></div>
           <div class="court-half" style="opacity:0.45">
-            <div class="court-cell">
-              <div class="pos-dot pd">P</div>
-              <div class="pos-label">pos.1</div>
-            </div>
-            <div class="court-cell">
-              <div class="pos-dot ld">L</div>
-              <div class="pos-label">pos.6</div>
-            </div>
-            <div class="court-cell">
-              <div class="pos-dot md">M</div>
-              <div class="pos-label">pos.5</div>
-            </div>
+            <div class="court-cell"><div class="pos-dot pd">P</div><div class="pos-label">pos.1</div></div>
+            <div class="court-cell"><div class="pos-dot ld">L</div><div class="pos-label">pos.6</div></div>
+            <div class="court-cell"><div class="pos-dot md">M</div><div class="pos-label">pos.5</div></div>
           </div>
         </div>
-        <!-- Nota libero -->
-        <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,0.65);text-align:center;letter-spacing:.3px">
-          🛡️ Il Libero gioca solo in seconda linea — sostituisce il Centrale in difesa
-        </div>
+        <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,0.65);text-align:center">🛡️ Il Libero gioca solo in seconda linea — sostituisce il Centrale in difesa</div>
       </div>
-
-      <!-- Legenda -->
       <div class="role-legend">
         <span class="role-badge role-palleggiatrice">🎯 Palleggiatrice/ore</span>
         <span class="role-badge role-libero">🛡️ Libero</span>
@@ -250,9 +264,98 @@ button.danger{color:#A32D2D;border-color:#A32D2D}
         <span class="role-badge role-centrale">🏔️ Centrale</span>
       </div>
     </div>
-
     <div class="rosa-grid" id="rosa-grid">
       <div class="empty" style="grid-column:1/-1">Nessun giocatore. Clicca "+ Aggiungi" per iniziare.</div>
+    </div>
+  </div>
+
+  <!-- SCHEMA -->
+  <div id="schema" class="section">
+    <div class="card" style="margin-bottom:12px">
+      <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:10px">
+        Trascina i giocatori dalla panchina alle posizioni in campo. Usa le frecce per ruotare.
+      </div>
+      <!-- Schema name + save -->
+      <div class="schema-name-row">
+        <input type="text" id="schema-name-input" placeholder="Nome schema (es. Schema A)"/>
+        <button class="primary" onclick="saveSchema()">💾 Salva</button>
+        <button onclick="clearCourt()">🔄 Reset</button>
+      </div>
+      <!-- Palleggiatore position selector -->
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <span style="font-size:13px;color:var(--color-text-secondary);font-weight:500">Posizione palleggiatore:</span>
+        <div style="display:flex;gap:5px;flex-wrap:wrap" id="palleg-pos-btns">
+          <button onclick="setPallegPos(1)" id="pp1" style="padding:4px 10px;font-size:12px">P1</button>
+          <button onclick="setPallegPos(2)" id="pp2" style="padding:4px 10px;font-size:12px">P2</button>
+          <button onclick="setPallegPos(3)" id="pp3" style="padding:4px 10px;font-size:12px">P3</button>
+          <button onclick="setPallegPos(4)" id="pp4" style="padding:4px 10px;font-size:12px">P4</button>
+          <button onclick="setPallegPos(5)" id="pp5" style="padding:4px 10px;font-size:12px">P5</button>
+          <button onclick="setPallegPos(6)" id="pp6" style="padding:4px 10px;font-size:12px">P6</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="schema-layout">
+      <!-- Sidebar schemi salvati -->
+      <div class="schema-sidebar">
+        <h3>Schemi salvati</h3>
+        <div class="schema-list" id="schema-list">
+          <div style="font-size:12px;color:var(--color-text-secondary);padding:6px 0">Nessuno schema.</div>
+        </div>
+      </div>
+
+      <!-- Campo interattivo -->
+      <div class="court-main">
+        <!-- Rotation nav -->
+        <div class="schema-controls">
+          <div style="font-size:13px;color:var(--color-text-secondary)" id="rotation-info">Rotazione 1</div>
+          <div class="rotation-nav">
+            <button class="rot-btn" onclick="rotate(-1)">◀</button>
+            <span class="rot-label" id="rot-label">1 / 6</span>
+            <button class="rot-btn" onclick="rotate(1)">▶</button>
+          </div>
+        </div>
+
+        <div class="icourt-wrap">
+          <!-- FONDOCAMPO: pos 5,6,1 -->
+          <div class="icourt">
+            <div class="icourt-half" id="back-row">
+              <!-- pos 5 (back-left), pos 6 (back-center), pos 1 (back-right) -->
+              <div class="drop-zone" id="dz-5" ondragover="dzOver(event,this)" ondrop="dzDrop(event,this)" ondragleave="dzLeave(this)" data-pos="5">
+                <div class="drop-zone-label">5</div>
+              </div>
+              <div class="drop-zone" id="dz-6" ondragover="dzOver(event,this)" ondrop="dzDrop(event,this)" ondragleave="dzLeave(this)" data-pos="6">
+                <div class="drop-zone-label">6</div>
+              </div>
+              <div class="drop-zone" id="dz-1" ondragover="dzOver(event,this)" ondrop="dzDrop(event,this)" ondragleave="dzLeave(this)" data-pos="1">
+                <div class="drop-zone-label">1</div>
+              </div>
+            </div>
+            <div class="icourt-attackline"></div>
+            <!-- PRIMA LINEA: pos 4,3,2 -->
+            <div class="icourt-half" id="front-row">
+              <div class="drop-zone" id="dz-4" ondragover="dzOver(event,this)" ondrop="dzDrop(event,this)" ondragleave="dzLeave(this)" data-pos="4">
+                <div class="drop-zone-label">4</div>
+              </div>
+              <div class="drop-zone" id="dz-3" ondragover="dzOver(event,this)" ondrop="dzDrop(event,this)" ondragleave="dzLeave(this)" data-pos="3">
+                <div class="drop-zone-label">3</div>
+              </div>
+              <div class="drop-zone" id="dz-2" ondragover="dzOver(event,this)" ondrop="dzDrop(event,this)" ondragleave="dzLeave(this)" data-pos="2">
+                <div class="drop-zone-label">2</div>
+              </div>
+            </div>
+            <div class="icourt-net"><span class="icourt-net-label">NET</span></div>
+          </div>
+
+          <!-- PANCHINA -->
+          <div class="bench-area">
+            <div class="bench-label">🪑 Panchina</div>
+            <div class="bench-players" id="bench"
+              ondragover="dzOver(event,this)" ondrop="benchDrop(event)" ondragleave="dzLeave(this)">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -289,17 +392,15 @@ button.danger{color:#A32D2D;border-color:#A32D2D}
   </div>
 </div>
 
-<!-- MODAL -->
+<!-- MODAL Rosa -->
 <div class="modal-overlay" id="rosa-modal" onclick="handleOverlayClick(event)">
   <div class="modal">
     <h3 id="modal-title">Aggiungi giocatore</h3>
-
     <div class="avatar-area" id="avatar-area" onclick="document.getElementById('avatar-input').click()">
       <img id="avatar-preview" src="" style="display:none;width:100%;height:100%;object-fit:cover"/>
       <div class="avatar-placeholder" id="avatar-placeholder">📷<br/>Carica foto</div>
       <input type="file" id="avatar-input" accept="image/*" style="position:absolute;opacity:0;width:0;height:0" onchange="previewAvatar(event)"/>
     </div>
-
     <div class="form-group">
       <label>Nome</label>
       <input type="text" id="modal-name" placeholder="Nome e cognome"/>
@@ -326,28 +427,44 @@ button.danger{color:#A32D2D;border-color:#A32D2D}
 </div>
 
 <script>
+// ===================== DATA =====================
 let players = JSON.parse(localStorage.getItem('vb_players') || '[]');
 let schedule = JSON.parse(localStorage.getItem('vb_schedule') || '[]');
 let rosaPlayers = JSON.parse(localStorage.getItem('vb_rosa') || '[]');
+let schemas = JSON.parse(localStorage.getItem('vb_schemas') || '[]');
 let editingRosaId = null;
 let tempAvatarData = null;
+
+// Schema state
+// courtState: { pos: { 1..6: playerId|null } }  for each rotation
+// We keep 6 rotations. courtState[rotIdx] = {1:id, 2:id, ...6:id}
+let currentSchemaName = '';
+let currentRotation = 0; // 0-based index (rotation 1..6)
+let courtState = Array.from({length:6}, () => ({1:null,2:null,3:null,4:null,5:null,6:null}));
+// pallegPos: which position the palleggiatore starts at (1-6)
+let pallegPos = 1;
+let dragPlayerId = null;
+let dragFromPos = null; // null = bench, number = court pos
 
 function save() {
   try {
     localStorage.setItem('vb_players', JSON.stringify(players));
     localStorage.setItem('vb_schedule', JSON.stringify(schedule));
     localStorage.setItem('vb_rosa', JSON.stringify(rosaPlayers));
+    localStorage.setItem('vb_schemas', JSON.stringify(schemas));
   } catch(e) { console.warn('Storage error', e); }
 }
 
+// ===================== TABS =====================
 function showTab(t) {
-  const tabs = ['players','rosa','schedule','teams'];
+  const tabs = ['players','rosa','schema','schedule','teams'];
   document.querySelectorAll('.tab').forEach((b,i) => b.classList.toggle('active', tabs[i]===t));
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.getElementById(t).classList.add('active');
+  if (t === 'schema') initSchemaTab();
 }
 
-// PLAYERS
+// ===================== PLAYERS =====================
 function addPlayer() {
   const n = document.getElementById('pname').value.trim();
   if (!n) return;
@@ -372,7 +489,7 @@ function renderPlayers() {
     </div>`).join('');
 }
 
-// SCHEDULE
+// ===================== SCHEDULE =====================
 function addSlot() {
   schedule.push({id:Date.now(),day:document.getElementById('sday').value,time:document.getElementById('stime').value,note:document.getElementById('snote').value.trim()});
   schedule.sort((a,b)=>{const d=['Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato','Domenica'];return d.indexOf(a.day)-d.indexOf(b.day)||a.time.localeCompare(b.time);});
@@ -388,11 +505,23 @@ function renderSchedule() {
       <span class="day-badge">${s.day}</span>
       <span class="sched-time">${s.time}</span>
       <span class="sched-note">${s.note||''}</span>
+      <button onclick="shareWhatsApp(${s.id})" style="padding:4px 10px;font-size:12px;color:#25D366;border-color:#25D366" title="Invia su WhatsApp">📲</button>
       <button class="danger" onclick="removeSlot(${s.id})" style="padding:4px 10px;font-size:12px">rimuovi</button>
     </div>`).join('');
 }
 
-// TEAMS
+function shareWhatsApp(id) {
+  const s = schedule.find(x => x.id === id);
+  if (!s) return;
+  const nota = s.note ? `📍 ${s.note}
+` : '';
+  const testo = `🏐 *Allenamento di pallavolo*
+📅 ${s.day} alle ${s.time}
+${nota}Ci vediamo in campo! 💪`;
+  window.open('https://wa.me/?text=' + encodeURIComponent(testo), '_blank');
+}
+
+// ===================== TEAMS =====================
 function generateTeams() {
   const n = parseInt(document.getElementById('numteams').value);
   if (players.length < n) { document.getElementById('teams-output').innerHTML='<div class="alert">Non ci sono abbastanza giocatori per '+n+' squadre.</div>'; return; }
@@ -412,18 +541,18 @@ function generateTeams() {
     <button onclick="generateTeams()" style="margin-top:12px">Rigenera</button>`;
 }
 
-// ROSA
+// ===================== ROSA =====================
 const roleLabels = {
-  palleggiatrice: '🎯 Palleggiatrice/ore',
-  libero: '🛡️ Libero',
-  martello: '⚡ Martello',
-  opposto: '🔥 Opposto',
-  centrale: '🏔️ Centrale'
+  palleggiatrice:'🎯 Palleggiatrice/ore', libero:'🛡️ Libero',
+  martello:'⚡ Martello', opposto:'🔥 Opposto', centrale:'🏔️ Centrale'
+};
+const roleColors = {
+  palleggiatrice:'#1a5fa8', libero:'#8a5000',
+  martello:'#5b2fa8', opposto:'#a8182a', centrale:'#0a6632'
 };
 
 function openRosaModal(id) {
-  editingRosaId = id;
-  tempAvatarData = null;
+  editingRosaId = id; tempAvatarData = null;
   document.getElementById('modal-title').textContent = id ? 'Modifica giocatore' : 'Aggiungi giocatore';
   document.getElementById('avatar-preview').style.display = 'none';
   document.getElementById('avatar-preview').src = '';
@@ -431,7 +560,6 @@ function openRosaModal(id) {
   document.getElementById('avatar-placeholder').style.flexDirection = 'column';
   document.getElementById('avatar-placeholder').style.alignItems = 'center';
   document.getElementById('avatar-input').value = '';
-
   if (id) {
     const p = rosaPlayers.find(x=>x.id===id);
     if (p) {
@@ -451,32 +579,21 @@ function openRosaModal(id) {
   }
   document.getElementById('rosa-modal').classList.add('open');
 }
-
-function closeRosaModal() {
-  document.getElementById('rosa-modal').classList.remove('open');
-  editingRosaId = null;
-  tempAvatarData = null;
-}
-
-function handleOverlayClick(e) {
-  if (e.target === document.getElementById('rosa-modal')) closeRosaModal();
-}
-
+function closeRosaModal() { document.getElementById('rosa-modal').classList.remove('open'); editingRosaId=null; tempAvatarData=null; }
+function handleOverlayClick(e) { if(e.target===document.getElementById('rosa-modal')) closeRosaModal(); }
 function previewAvatar(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  // Resize image before storing to keep localStorage manageable
+  const file = e.target.files[0]; if(!file) return;
   const reader = new FileReader();
   reader.onload = function(ev) {
     const img = new Image();
     img.onload = function() {
       const canvas = document.createElement('canvas');
       const MAX = 200;
-      let w = img.width, h = img.height;
-      if (w > h) { if(w>MAX){h=h*MAX/w;w=MAX;} } else { if(h>MAX){w=w*MAX/h;h=MAX;} }
-      canvas.width = w; canvas.height = h;
-      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      tempAvatarData = canvas.toDataURL('image/jpeg', 0.75);
+      let w=img.width, h=img.height;
+      if(w>h){if(w>MAX){h=h*MAX/w;w=MAX;}}else{if(h>MAX){w=w*MAX/h;h=MAX;}}
+      canvas.width=w; canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      tempAvatarData = canvas.toDataURL('image/jpeg',0.75);
       document.getElementById('avatar-preview').src = tempAvatarData;
       document.getElementById('avatar-preview').style.display = 'block';
       document.getElementById('avatar-placeholder').style.display = 'none';
@@ -485,60 +602,298 @@ function previewAvatar(e) {
   };
   reader.readAsDataURL(file);
 }
-
 function saveRosaPlayer() {
   const name = document.getElementById('modal-name').value.trim();
-  if (!name) { alert('Inserisci il nome'); return; }
+  if(!name){alert('Inserisci il nome');return;}
   const role = document.getElementById('modal-role').value;
   const words = document.getElementById('modal-words').value.trim();
-
-  if (editingRosaId) {
+  if(editingRosaId) {
     const p = rosaPlayers.find(x=>x.id===editingRosaId);
-    if (p) {
-      p.name = name; p.role = role; p.words = words;
-      if (tempAvatarData) p.avatar = tempAvatarData;
-    }
+    if(p){p.name=name;p.role=role;p.words=words;if(tempAvatarData)p.avatar=tempAvatarData;}
   } else {
-    rosaPlayers.push({ id:Date.now(), name, role, words, avatar: tempAvatarData||null });
+    rosaPlayers.push({id:Date.now(),name,role,words,avatar:tempAvatarData||null});
   }
   save(); closeRosaModal(); renderRosa();
 }
-
 function removeRosaPlayer(id) {
-  if (!confirm('Rimuovere questo giocatore dalla rosa?')) return;
-  rosaPlayers = rosaPlayers.filter(x=>x.id!==id);
+  rosaPlayers = rosaPlayers.filter(x => x.id !== id);
   save(); renderRosa();
 }
-
 function renderRosa() {
   const grid = document.getElementById('rosa-grid');
-  if (!rosaPlayers.length) {
-    grid.innerHTML = '<div class="empty" style="grid-column:1/-1">Nessun giocatore nella rosa.</div>';
-    return;
-  }
-  const roleOrder = ['palleggiatrice','libero','martello','opposto','centrale'];
-  const sorted = [...rosaPlayers].sort((a,b) => roleOrder.indexOf(a.role) - roleOrder.indexOf(b.role));
-  grid.innerHTML = sorted.map(p => {
+  if(!rosaPlayers.length){grid.innerHTML='<div class="empty" style="grid-column:1/-1">Nessun giocatore nella rosa.</div>';return;}
+  const roleOrder=['palleggiatrice','libero','martello','opposto','centrale'];
+  const sorted=[...rosaPlayers].sort((a,b)=>roleOrder.indexOf(a.role)-roleOrder.indexOf(b.role));
+  grid.innerHTML = sorted.map(p=>{
     const av = p.avatar
       ? `<img src="${p.avatar}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover"/>`
       : `<span style="font-size:26px">👤</span>`;
-    return `
-      <div class="rosa-card">
-        <div class="rosa-avatar">${av}</div>
-        <div class="rosa-name">${p.name}</div>
-        <span class="role-badge role-${p.role}">${roleLabels[p.role]||p.role}</span>
-        ${p.words ? `<div class="rosa-words">"${p.words}"</div>` : ''}
-        <div class="rosa-actions">
-          <button style="padding:3px 9px;font-size:11px;color:#1a5fa8;border-color:#1a5fa8" onclick="openRosaModal(${p.id})">✏️ Modifica</button>
-          <button class="danger" onclick="removeRosaPlayer(${p.id})" style="padding:3px 9px;font-size:11px">✕</button>
-        </div>
-      </div>`;
+    return `<div class="rosa-card">
+      <div class="rosa-avatar">${av}</div>
+      <div class="rosa-name">${p.name}</div>
+      <span class="role-badge role-${p.role}">${roleLabels[p.role]||p.role}</span>
+      ${p.words?`<div class="rosa-words">"${p.words}"</div>`:''}
+      <div class="rosa-actions">
+        <button style="padding:3px 9px;font-size:11px;color:#1a5fa8;border-color:#1a5fa8" onclick="openRosaModal(${p.id})">✏️ Modifica</button>
+        <button class="danger" onclick="removeRosaPlayer(${p.id})" style="padding:3px 9px;font-size:11px">✕</button>
+      </div>
+    </div>`;
   }).join('');
 }
 
+// ===================== SCHEMA TAB =====================
+function initSchemaTab() {
+  renderSchemaList();
+  renderCourt();
+  renderBench();
+}
+
+// Rotation: position numbers rotate clockwise
+// After one rotation clockwise: pos1->pos2, pos2->pos3, pos3->pos4, pos4->pos5, pos5->pos6, pos6->pos1
+// We keep 6 independent states for each rotation slot (user can customize each)
+function rotate(dir) {
+  currentRotation = (currentRotation + dir + 6) % 6;
+  document.getElementById('rot-label').textContent = (currentRotation+1) + ' / 6';
+  document.getElementById('rotation-info').textContent = 'Rotazione ' + (currentRotation+1);
+  renderCourt();
+  renderBench();
+}
+
+function setPallegPos(pos) {
+  pallegPos = pos;
+  // Update button styles
+  for(let i=1;i<=6;i++){
+    const btn = document.getElementById('pp'+i);
+    if(btn) btn.style.background = i===pos ? '#1a5fa8' : '';
+    if(btn) btn.style.color = i===pos ? 'white' : '';
+    if(btn) btn.style.borderColor = i===pos ? '#1a5fa8' : '';
+  }
+  // Auto-arrange based on palleggiatore position using standard 5-1 rotation
+  autoArrange(pos);
+}
+
+// Standard 5-1 rotation layout:
+// Positions go: P, M, C, O, M, C (counterclockwise starting from palleggiatore)
+// pos1=P -> pos2=O -> pos3=C -> pos4=M -> pos5=C -> pos6=M (typical starting)
+// We suggest roles for each zone based on palleggiatore position
+function getExpectedRoles(pallegPosition) {
+  // In 5-1: P at pos X, then counterclockwise: O, C, M, C, M
+  // Clockwise from P: M, C, O, M, C
+  const sequence = ['palleggiatrice','martello','centrale','opposto','martello','centrale'];
+  const roles = {};
+  for(let i=0;i<6;i++){
+    const pos = ((pallegPosition - 1 + i) % 6) + 1;
+    roles[pos] = sequence[i];
+  }
+  return roles;
+}
+
+function autoArrange(pallegPosition) {
+  // Place players by role into the correct positions for this rotation
+  const expectedRoles = getExpectedRoles(pallegPosition);
+  const rot = currentRotation;
+  // Clear current rotation
+  courtState[rot] = {1:null,2:null,3:null,4:null,5:null,6:null};
+  
+  // Track used players
+  const used = new Set();
+  const placed = {};
+  
+  // For each position, find a player with the expected role
+  for(let pos=1;pos<=6;pos++){
+    const expectedRole = expectedRoles[pos];
+    // Special: if position is in back row (5,6,1) and expected is centrale -> use libero instead
+    const backRow = [5,6,1];
+    let targetRole = expectedRole;
+    if(backRow.includes(pos) && expectedRole === 'centrale') targetRole = 'libero';
+    // If no libero available, fall back to centrale
+    const candidate = rosaPlayers.find(p => p.role === targetRole && !used.has(p.id))
+      || rosaPlayers.find(p => p.role === expectedRole && !used.has(p.id));
+    if(candidate){ placed[pos] = candidate.id; used.add(candidate.id); }
+  }
+  courtState[rot] = {...{1:null,2:null,3:null,4:null,5:null,6:null}, ...placed};
+  renderCourt();
+  renderBench();
+}
+
+// Build token HTML for a player
+function makeToken(player, size='court') {
+  const color = roleColors[player.role] || '#444';
+  const initials = player.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  if(size === 'court') {
+    const img = player.avatar
+      ? `<img src="${player.avatar}" draggable="false" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>`
+      : `<span class="court-token-initials">${initials}</span>`;
+    return `<div class="court-token" draggable="true"
+        style="background:${player.avatar?'#000':color};border-color:${color}"
+        ondragstart="tokenDragStart(event,${player.id},'court')"
+        ondragend="tokenDragEnd(event)"
+        title="${player.name} — ${roleLabels[player.role]||player.role}">
+      ${img}
+      <div class="court-token-role-dot" style="background:${color}"></div>
+      <div class="court-token-name">${player.name.split(' ')[0]}</div>
+    </div>`;
+  } else {
+    const img = player.avatar
+      ? `<img src="${player.avatar}" draggable="false" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>`
+      : `<span class="bench-token-initials">${initials}</span>`;
+    return `<div class="bench-token" draggable="true"
+        style="background:${player.avatar?'#000':color};border-color:${color}"
+        ondragstart="tokenDragStart(event,${player.id},'bench')"
+        ondragend="tokenDragEnd(event)"
+        title="${player.name}">
+      ${img}
+      <div class="bench-token-tooltip">${player.name.split(' ')[0]}</div>
+    </div>`;
+  }
+}
+
+function renderCourt() {
+  const rot = courtState[currentRotation];
+  for(let pos=1;pos<=6;pos++){
+    const dz = document.getElementById('dz-'+pos);
+    if(!dz) continue;
+    const pid = rot[pos];
+    const player = pid ? rosaPlayers.find(p=>p.id===pid) : null;
+    // Clear token but keep label
+    const label = dz.querySelector('.drop-zone-label');
+    dz.innerHTML = '';
+    if(label) dz.appendChild(label.cloneNode(true));
+    if(player) {
+      dz.insertAdjacentHTML('afterbegin', makeToken(player,'court'));
+    }
+  }
+}
+
+function renderBench() {
+  const rot = courtState[currentRotation];
+  const onCourt = new Set(Object.values(rot).filter(Boolean));
+  const bench = rosaPlayers.filter(p => !onCourt.has(p.id));
+  const benchEl = document.getElementById('bench');
+  benchEl.innerHTML = bench.length === 0
+    ? '<span style="font-size:12px;color:rgba(255,255,255,0.4);padding:8px">Tutti in campo</span>'
+    : bench.map(p => makeToken(p,'bench')).join('');
+}
+
+// ---- DRAG & DROP ----
+function tokenDragStart(e, playerId, from) {
+  dragPlayerId = playerId;
+  // Find if player is on court and at which pos
+  dragFromPos = null;
+  if(from === 'court') {
+    const rot = courtState[currentRotation];
+    for(let pos=1;pos<=6;pos++) {
+      if(rot[pos] === playerId) { dragFromPos = pos; break; }
+    }
+  }
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', playerId);
+  setTimeout(()=>{if(e.target)e.target.style.opacity='0.4';},0);
+}
+function tokenDragEnd(e) {
+  if(e.target) e.target.style.opacity='1';
+  dragPlayerId = null; dragFromPos = null;
+}
+function dzOver(e, el) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  el.classList.add('drag-over');
+}
+function dzLeave(el) { el.classList.remove('drag-over'); }
+
+function dzDrop(e, dropZone) {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  if(!dragPlayerId) return;
+  const toPos = parseInt(dropZone.dataset.pos);
+  const rot = courtState[currentRotation];
+  
+  // If someone is already in toPos, swap them
+  const existingId = rot[toPos];
+  
+  // Remove from source
+  if(dragFromPos !== null) rot[dragFromPos] = existingId; // swap
+  else if(existingId) {/* existingId goes to bench (rot[toPos] will be overwritten) */}
+  
+  rot[toPos] = dragPlayerId;
+  renderCourt();
+  renderBench();
+}
+
+function benchDrop(e) {
+  e.preventDefault();
+  document.getElementById('bench').classList.remove('drag-over');
+  if(!dragPlayerId || dragFromPos===null) return;
+  // Remove from court
+  const rot = courtState[currentRotation];
+  rot[dragFromPos] = null;
+  renderCourt();
+  renderBench();
+}
+
+function clearCourt() {
+  courtState[currentRotation] = {1:null,2:null,3:null,4:null,5:null,6:null};
+  renderCourt(); renderBench();
+}
+
+// ---- SAVE / LOAD SCHEMAS ----
+function saveSchema() {
+  const name = document.getElementById('schema-name-input').value.trim() || ('Schema ' + (schemas.length+1));
+  const existing = schemas.find(s=>s.name===name);
+  if(existing) {
+    if(!confirm(`Sovrascrivere lo schema "${name}"?`)) return;
+    existing.courtState = JSON.parse(JSON.stringify(courtState));
+    existing.pallegPos = pallegPos;
+  } else {
+    schemas.push({
+      id: Date.now(),
+      name,
+      courtState: JSON.parse(JSON.stringify(courtState)),
+      pallegPos
+    });
+  }
+  save();
+  renderSchemaList();
+  document.getElementById('schema-name-input').value = name;
+}
+
+function loadSchema(id) {
+  const s = schemas.find(x=>x.id===id);
+  if(!s) return;
+  courtState = JSON.parse(JSON.stringify(s.courtState));
+  pallegPos = s.pallegPos || 1;
+  document.getElementById('schema-name-input').value = s.name;
+  currentRotation = 0;
+  document.getElementById('rot-label').textContent = '1 / 6';
+  document.getElementById('rotation-info').textContent = 'Rotazione 1';
+  setPallegPos(pallegPos);
+  renderCourt(); renderBench();
+  renderSchemaList(id);
+}
+
+function deleteSchema(id) {
+  schemas = schemas.filter(x=>x.id!==id);
+  save(); renderSchemaList();
+}
+
+function renderSchemaList(activeId) {
+  const el = document.getElementById('schema-list');
+  if(!schemas.length) {
+    el.innerHTML='<div style="font-size:12px;color:var(--color-text-secondary);padding:6px 0">Nessuno schema.</div>';
+    return;
+  }
+  el.innerHTML = schemas.map(s=>`
+    <div class="schema-item ${s.id===activeId?'active-schema':''}" onclick="loadSchema(${s.id})">
+      <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.name}</span>
+      <button class="schema-del" onclick="event.stopPropagation();deleteSchema(${s.id})">✕</button>
+    </div>`).join('');
+}
+
+// ===================== INIT =====================
 renderPlayers();
 renderSchedule();
 renderRosa();
+renderSchemaList();
 </script>
 </body>
 </html>
