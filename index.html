@@ -227,34 +227,39 @@ button.danger{color:#A32D2D;border-color:#A32D2D}
         <h2>Giocatori principali</h2>
         <button class="primary" onclick="openRosaModal(null)">+ Aggiungi</button>
       </div>
-      <div class="court-wrap">
-        <div class="court-label">Posizioni in campo (sistema 5-1)</div>
-        <div class="court">
-          <div class="court-half">
-            <div class="court-cell"><div class="pos-dot md">M</div><div class="pos-label">Martello<br/>pos.5</div></div>
-            <div class="court-cell"><div class="pos-dot ld">L</div><div class="pos-label">Libero<br/>pos.6</div></div>
-            <div class="court-cell"><div class="pos-dot pd">P</div><div class="pos-label">Pallegg.<br/>pos.1</div></div>
+      <!-- Schema selector -->
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+        <span style="font-size:13px;color:var(--color-text-secondary);font-weight:500">Schema attivo:</span>
+        <select id="rosa-schema-select" onchange="updateRosaCourt()" style="flex:1;min-width:120px;font-size:13px">
+          <option value="">— Nessuno schema —</option>
+        </select>
+        <select id="rosa-rotation-select" onchange="updateRosaCourt()" style="min-width:110px;flex:0;font-size:13px">
+          <option value="0">Rotazione 1</option>
+          <option value="1">Rotazione 2</option>
+          <option value="2">Rotazione 3</option>
+          <option value="3">Rotazione 4</option>
+          <option value="4">Rotazione 5</option>
+          <option value="5">Rotazione 6</option>
+        </select>
+      </div>
+      <div class="court-wrap" id="rosa-court-wrap">
+        <div class="court-label" id="rosa-court-label">Schema non selezionato</div>
+        <div class="court" id="rosa-court">
+          <!-- filled dynamically -->
+          <div class="court-half" id="rosa-back-row" style="padding:8px 6px">
+            <div class="court-cell" id="rosa-pos-1"></div>
+            <div class="court-cell" id="rosa-pos-6"></div>
+            <div class="court-cell" id="rosa-pos-5"></div>
           </div>
           <div class="attack-line"></div>
-          <div class="court-half" style="padding-top:6px;padding-bottom:6px">
-            <div class="court-cell"><div class="pos-dot md">M</div><div class="pos-label">Martello<br/>pos.4</div></div>
-            <div class="court-cell"><div class="pos-dot cd">C</div><div class="pos-label">Centrale<br/>pos.3</div></div>
-            <div class="court-cell"><div class="pos-dot od">O</div><div class="pos-label">Opposto<br/>pos.2</div></div>
+          <div class="court-half" id="rosa-front-row" style="padding:8px 6px">
+            <div class="court-cell" id="rosa-pos-2"></div>
+            <div class="court-cell" id="rosa-pos-3"></div>
+            <div class="court-cell" id="rosa-pos-4"></div>
           </div>
           <div class="net"><span class="net-label">NET</span></div>
-          <div class="court-half" style="padding-top:6px;padding-bottom:6px;opacity:0.45">
-            <div class="court-cell"><div class="pos-dot od">O</div><div class="pos-label">pos.2</div></div>
-            <div class="court-cell"><div class="pos-dot cd">C</div><div class="pos-label">pos.3</div></div>
-            <div class="court-cell"><div class="pos-dot md">M</div><div class="pos-label">pos.4</div></div>
-          </div>
-          <div class="attack-line"></div>
-          <div class="court-half" style="opacity:0.45">
-            <div class="court-cell"><div class="pos-dot pd">P</div><div class="pos-label">pos.1</div></div>
-            <div class="court-cell"><div class="pos-dot ld">L</div><div class="pos-label">pos.6</div></div>
-            <div class="court-cell"><div class="pos-dot md">M</div><div class="pos-label">pos.5</div></div>
-          </div>
         </div>
-        <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,0.65);text-align:center">🛡️ Il Libero gioca solo in seconda linea — sostituisce il Centrale in difesa</div>
+        <div style="margin-top:8px;font-size:10px;color:rgba(255,255,255,0.55);text-align:center">🛡️ Libero solo in seconda linea</div>
       </div>
       <div class="role-legend">
         <span class="role-badge role-palleggiatrice">🎯 Palleggiatrice/ore</span>
@@ -321,27 +326,27 @@ button.danger{color:#A32D2D;border-color:#A32D2D}
           <div class="icourt">
             <div class="icourt-half" id="back-row">
               <!-- pos 5 (back-left), pos 6 (back-center), pos 1 (back-right) -->
-              <div class="drop-zone" id="dz-5" ondragover="dzOver(event,this)" ondrop="dzDrop(event,this)" ondragleave="dzLeave(this)" data-pos="5">
-                <div class="drop-zone-label">5</div>
+              <div class="drop-zone" id="dz-1" ondragover="dzOver(event,this)" ondrop="dzDrop(event,this)" ondragleave="dzLeave(this)" data-pos="1">
+                <div class="drop-zone-label">1</div>
               </div>
               <div class="drop-zone" id="dz-6" ondragover="dzOver(event,this)" ondrop="dzDrop(event,this)" ondragleave="dzLeave(this)" data-pos="6">
                 <div class="drop-zone-label">6</div>
               </div>
-              <div class="drop-zone" id="dz-1" ondragover="dzOver(event,this)" ondrop="dzDrop(event,this)" ondragleave="dzLeave(this)" data-pos="1">
-                <div class="drop-zone-label">1</div>
+              <div class="drop-zone" id="dz-5" ondragover="dzOver(event,this)" ondrop="dzDrop(event,this)" ondragleave="dzLeave(this)" data-pos="5">
+                <div class="drop-zone-label">5</div>
               </div>
             </div>
             <div class="icourt-attackline"></div>
-            <!-- PRIMA LINEA: pos 4,3,2 -->
+            <!-- PRIMA LINEA: pos 2,3,4 -->
             <div class="icourt-half" id="front-row">
-              <div class="drop-zone" id="dz-4" ondragover="dzOver(event,this)" ondrop="dzDrop(event,this)" ondragleave="dzLeave(this)" data-pos="4">
-                <div class="drop-zone-label">4</div>
+              <div class="drop-zone" id="dz-2" ondragover="dzOver(event,this)" ondrop="dzDrop(event,this)" ondragleave="dzLeave(this)" data-pos="2">
+                <div class="drop-zone-label">2</div>
               </div>
               <div class="drop-zone" id="dz-3" ondragover="dzOver(event,this)" ondrop="dzDrop(event,this)" ondragleave="dzLeave(this)" data-pos="3">
                 <div class="drop-zone-label">3</div>
               </div>
-              <div class="drop-zone" id="dz-2" ondragover="dzOver(event,this)" ondrop="dzDrop(event,this)" ondragleave="dzLeave(this)" data-pos="2">
-                <div class="drop-zone-label">2</div>
+              <div class="drop-zone" id="dz-4" ondragover="dzOver(event,this)" ondrop="dzDrop(event,this)" ondragleave="dzLeave(this)" data-pos="4">
+                <div class="drop-zone-label">4</div>
               </div>
             </div>
             <div class="icourt-net"><span class="icourt-net-label">NET</span></div>
@@ -396,10 +401,11 @@ button.danger{color:#A32D2D;border-color:#A32D2D}
 <div class="modal-overlay" id="rosa-modal" onclick="handleOverlayClick(event)">
   <div class="modal">
     <h3 id="modal-title">Aggiungi giocatore</h3>
-    <div class="avatar-area" id="avatar-area" onclick="document.getElementById('avatar-input').click()">
-      <img id="avatar-preview" src="" style="display:none;width:100%;height:100%;object-fit:cover"/>
+    <div class="avatar-area" id="avatar-area">
+      <img id="avatar-preview" src="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%"/>
       <div class="avatar-placeholder" id="avatar-placeholder">📷<br/>Carica foto</div>
-      <input type="file" id="avatar-input" accept="image/*" style="position:absolute;opacity:0;width:0;height:0" onchange="previewAvatar(event)"/>
+      <label for="avatar-input" style="position:absolute;inset:0;cursor:pointer;border-radius:50%"></label>
+      <input type="file" id="avatar-input" accept="image/*" style="position:absolute;opacity:0;width:1px;height:1px;top:0;left:0" onchange="previewAvatar(event)"/>
     </div>
     <div class="form-group">
       <label>Nome</label>
@@ -582,24 +588,45 @@ function openRosaModal(id) {
 function closeRosaModal() { document.getElementById('rosa-modal').classList.remove('open'); editingRosaId=null; tempAvatarData=null; }
 function handleOverlayClick(e) { if(e.target===document.getElementById('rosa-modal')) closeRosaModal(); }
 function previewAvatar(e) {
-  const file = e.target.files[0]; if(!file) return;
+  const file = e.target.files[0];
+  if (!file) return;
   const reader = new FileReader();
   reader.onload = function(ev) {
     const img = new Image();
     img.onload = function() {
-      const canvas = document.createElement('canvas');
-      const MAX = 200;
-      let w=img.width, h=img.height;
-      if(w>h){if(w>MAX){h=h*MAX/w;w=MAX;}}else{if(h>MAX){w=w*MAX/h;h=MAX;}}
-      canvas.width=w; canvas.height=h;
-      canvas.getContext('2d').drawImage(img,0,0,w,h);
-      tempAvatarData = canvas.toDataURL('image/jpeg',0.75);
-      document.getElementById('avatar-preview').src = tempAvatarData;
-      document.getElementById('avatar-preview').style.display = 'block';
-      document.getElementById('avatar-placeholder').style.display = 'none';
+      try {
+        const canvas = document.createElement('canvas');
+        const MAX = 200;
+        let w = img.width, h = img.height;
+        if (w > h) { if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; } }
+        else { if (h > MAX) { w = Math.round(w * MAX / h); h = MAX; } }
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        tempAvatarData = canvas.toDataURL('image/jpeg', 0.75);
+      } catch(err) {
+        // Fallback: use original data directly
+        tempAvatarData = ev.target.result;
+      }
+      const preview = document.getElementById('avatar-preview');
+      const placeholder = document.getElementById('avatar-placeholder');
+      preview.onload = null;
+      preview.src = tempAvatarData;
+      preview.style.cssText = 'display:block;width:100%;height:100%;object-fit:cover;border-radius:50%';
+      if (placeholder) placeholder.style.display = 'none';
+    };
+    img.onerror = function() {
+      // If Image fails, show raw data anyway
+      tempAvatarData = ev.target.result;
+      const preview = document.getElementById('avatar-preview');
+      preview.src = tempAvatarData;
+      preview.style.cssText = 'display:block;width:100%;height:100%;object-fit:cover;border-radius:50%';
+      const placeholder = document.getElementById('avatar-placeholder');
+      if (placeholder) placeholder.style.display = 'none';
     };
     img.src = ev.target.result;
   };
+  reader.onerror = function() { alert('Errore nella lettura del file. Riprova.'); };
   reader.readAsDataURL(file);
 }
 function saveRosaPlayer() {
@@ -613,7 +640,7 @@ function saveRosaPlayer() {
   } else {
     rosaPlayers.push({id:Date.now(),name,role,words,avatar:tempAvatarData||null});
   }
-  save(); closeRosaModal(); renderRosa();
+  save(); closeRosaModal(); renderRosa(); populateRosaSchemaSelect();
 }
 function removeRosaPlayer(id) {
   rosaPlayers = rosaPlayers.filter(x => x.id !== id);
@@ -854,6 +881,7 @@ function saveSchema() {
   }
   save();
   renderSchemaList();
+  populateRosaSchemaSelect();
   document.getElementById('schema-name-input').value = name;
 }
 
@@ -873,7 +901,7 @@ function loadSchema(id) {
 
 function deleteSchema(id) {
   schemas = schemas.filter(x=>x.id!==id);
-  save(); renderSchemaList();
+  save(); renderSchemaList(); populateRosaSchemaSelect();
 }
 
 function renderSchemaList(activeId) {
@@ -889,11 +917,92 @@ function renderSchemaList(activeId) {
     </div>`).join('');
 }
 
+// ===================== ROSA COURT (dynamic) =====================
+function populateRosaSchemaSelect() {
+  const sel = document.getElementById('rosa-schema-select');
+  if (!sel) return;
+  const current = sel.value;
+  sel.innerHTML = '<option value="">— Nessuno schema —</option>';
+  schemas.forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s.id;
+    opt.textContent = s.name;
+    sel.appendChild(opt);
+  });
+  // Restore selection if still valid
+  if (current && schemas.find(s => s.id == current)) sel.value = current;
+  updateRosaCourt();
+}
+
+function updateRosaCourt() {
+  const sel = document.getElementById('rosa-schema-select');
+  const rotSel = document.getElementById('rosa-rotation-select');
+  if (!sel || !rotSel) return;
+
+  const schemaId = parseInt(sel.value);
+  const rotIdx = parseInt(rotSel.value) || 0;
+  const schema = schemas.find(s => s.id === schemaId);
+
+  const label = document.getElementById('rosa-court-label');
+
+  // Positions: back row = 5,6,1 / front row = 4,3,2
+  const positions = [1,6,5,2,3,4];
+
+  if (!schema) {
+    // Show generic placeholder dots
+    label.textContent = 'Sistema 5-1 — seleziona uno schema';
+    const defaults = {
+      5:{role:'martello',label:'Martello·5'},
+      6:{role:'libero',label:'Libero·6'},
+      1:{role:'palleggiatrice',label:'Pallegg.·1'},
+      4:{role:'martello',label:'Martello·4'},
+      3:{role:'centrale',label:'Centrale·3'},
+      2:{role:'opposto',label:'Opposto·2'}
+    };
+    positions.forEach(pos => {
+      const cell = document.getElementById('rosa-pos-'+pos);
+      if (!cell) return;
+      const d = defaults[pos];
+      const color = roleColors[d.role] || '#444';
+      const letter = {palleggiatrice:'P',libero:'L',martello:'M',opposto:'O',centrale:'C'}[d.role]||'?';
+      cell.innerHTML = `<div class="pos-dot" style="background:${color};width:34px;height:34px;font-size:12px">${letter}</div><div class="pos-label">${d.label}</div>`;
+    });
+    return;
+  }
+
+  label.textContent = schema.name + ' — Rotazione ' + (rotIdx+1);
+  const rot = schema.courtState[rotIdx] || {1:null,2:null,3:null,4:null,5:null,6:null};
+
+  positions.forEach(pos => {
+    const cell = document.getElementById('rosa-pos-'+pos);
+    if (!cell) return;
+    const pid = rot[pos];
+    const player = pid ? rosaPlayers.find(p => p.id === pid) : null;
+    if (player) {
+      const color = roleColors[player.role] || '#444';
+      const initials = player.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+      const imgHtml = player.avatar
+        ? `<img src="${player.avatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" />`
+        : `<span style="font-size:13px;font-weight:800;color:white">${initials}</span>`;
+      cell.innerHTML = `
+        <div style="width:40px;height:40px;border-radius:50%;background:${player.avatar?'#222':color};border:2.5px solid ${color};overflow:hidden;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.3)">
+          ${imgHtml}
+        </div>
+        <div class="pos-label" style="font-size:8px;margin-top:2px">${player.name.split(' ')[0]}<br/>pos.${pos}</div>`;
+    } else {
+      cell.innerHTML = `<div style="width:34px;height:34px;border-radius:50%;border:2px dashed rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center">
+        <span style="font-size:10px;color:rgba(255,255,255,0.3)">${pos}</span>
+      </div>`;
+    }
+  });
+}
+
 // ===================== INIT =====================
 renderPlayers();
 renderSchedule();
 renderRosa();
 renderSchemaList();
+populateRosaSchemaSelect();
 </script>
 </body>
 </html>
