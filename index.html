@@ -1012,7 +1012,7 @@ function updateRosaCourt() {
   if (!sel || !rotSel) return;
 
   const schemaId = parseInt(sel.value);
-  const rotIdx = parseInt(rotSel.value) || 0;
+  const rotIdx = rotSel.value !== "" ? parseInt(rotSel.value) : 0;
   const schema = schemas.find(s => s.id === schemaId);
 
   const label = document.getElementById('rosa-court-label');
@@ -1021,23 +1021,29 @@ function updateRosaCourt() {
   const positions = [1,6,5,2,3,4];
 
   if (!schema) {
-    // Show generic placeholder dots
-    label.textContent = 'Sistema 5-1 — seleziona uno schema';
-    const defaults = {
-      5:{role:'martello',label:'Martello·5'},
-      6:{role:'libero',label:'Libero·6'},
-      1:{role:'palleggiatrice',label:'Pallegg.·1'},
-      4:{role:'martello',label:'Martello·4'},
-      3:{role:'centrale',label:'Centrale·3'},
-      2:{role:'opposto',label:'Opposto·2'}
-    };
+    // Show standard 5-1 rotation based on rotIdx
+    // Standard 5-1 rotation
+    // Base roles (rot 0, P at pos 1): P@1, O@2, C@3, M@4, C@5, M@6
+    // Libero replaces C only when C is in BACK row (pos 1,6,5)
+    // Front row = pos 2,3,4 — Libero NEVER here
+    const baseRoles = {1:'palleggiatrice', 2:'opposto', 3:'centrale', 4:'martello', 5:'centrale', 6:'martello'};
+    const frontRow = [2,3,4];
+    const roleNames = {palleggiatrice:'Pallegg.', opposto:'Opposto', centrale:'Centrale', martello:'Martello', libero:'Libero'};
+    const letter = {palleggiatrice:'P', libero:'L', martello:'M', opposto:'O', centrale:'C'};
+
+    label.textContent = 'Sistema 5-1 — Rotazione ' + (rotIdx+1);
+
     positions.forEach(pos => {
       const cell = document.getElementById('rosa-pos-'+pos);
       if (!cell) return;
-      const d = defaults[pos];
-      const color = roleColors[d.role] || '#444';
-      const letter = {palleggiatrice:'P',libero:'L',martello:'M',opposto:'O',centrale:'C'}[d.role]||'?';
-      cell.innerHTML = `<div class="pos-dot" style="background:${color};width:34px;height:34px;font-size:12px">${letter}</div><div class="pos-label">${d.label}</div>`;
+      // Shift back by rotIdx to find base role
+      const basePos = ((pos - 1 - rotIdx + 6) % 6) + 1;
+      let role = baseRoles[basePos];
+      // Libero replaces Centrale only in back row
+      if (role === 'centrale' && !frontRow.includes(pos)) role = 'libero';
+      const color = roleColors[role] || '#444';
+      const lbl = roleNames[role] + '·' + pos;
+      cell.innerHTML = `<div class="pos-dot" style="background:${color};width:34px;height:34px;font-size:12px">${letter[role]}</div><div class="pos-label">${lbl}</div>`;
     });
     return;
   }
